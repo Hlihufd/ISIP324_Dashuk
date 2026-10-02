@@ -1,86 +1,160 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Security.Policy;
-using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ISIP324_Dashuk
+namespace ConsoleApp1
 {
+
     internal class Program
     {
-        static void Bubble (int[] array)
+        public static (string maxl, string minl) FindMinAndMaxLenght(string s)
         {
-            int n = array.Length;
-            bool swapped;
+            string shortest = string.Empty;
+            string longest = string.Empty;
 
-            for (int i = 0; i < n - 1; i++)
+            int minLenght = int.MaxValue;
+            int maxLenght = 0;
+
+            int wordStart = -1;
+
+            for (int i = 0; i <= s.Length; i++)
             {
-                swapped = false;
-                for (int j = 0; j < n - i - 1; j++)
+                bool isEnd = i == s.Length;
+                bool isSep = !isEnd && (char.IsWhiteSpace(s[i]) || char.IsPunctuation(s[i]));
+
+                if (!isEnd && isSep)
                 {
-                    if (array[j] > array[j + 1])
+                    if (wordStart == -1)
                     {
-                        (array[j], array[j + 1]) = (array[j + 1], array[j]);
-                        swapped = true;
+                        wordStart = i;
                     }
                 }
+                else if (wordStart != -1) {
+                    int currentLenght = i - wordStart;
 
-                if (!swapped)
-                {
-                    break; 
+                    if (currentLenght < minLenght) { 
+                        minLenght = currentLenght;
+                        shortest = s.Substring(wordStart, currentLenght);
+                    }
+
+                    if (currentLenght > maxLenght) {
+                        maxLenght = currentLenght;
+                        longest = s.Substring(wordStart, currentLenght);
+                    }
+                    wordStart = -1;
                 }
             }
+            return (longest, shortest);
         }
+
+        public static int CountSent(string s)
+        {
+            char[] separators = new[] { '.', '!', '?', ';' };
+            string[] words = s.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            int count = 0;
+            foreach (var item in words)
+            {
+                count++;
+            }
+            return count;
+        }
+
+        public static int WordCount(string s) {
+            return Regex.Matches(s, @"\w+").Count;
+        }
+
+        public static (int vowels, int consonants) CountLetters(string s)
+        {
+            int vCount = 0, cCount = 0;
+
+            foreach (char c in s)
+            {
+                switch (c)
+                {
+                    case 'а':
+                    case 'е':
+                    case 'ё':
+                    case 'и':
+                    case 'о':
+                    case 'Ё':
+                    case 'Я':
+                    case 'у':
+                    case 'ы':
+                    case 'э':
+                    case 'ю':
+                    case 'я':
+                    case 'А':
+                    case 'Е':
+                    case 'И':
+                    case 'О':
+                    case 'У':
+                    case 'Ы':
+                    case 'Э':
+                    case 'Ю':
+                        vCount++;
+                        break;
+
+                    case 'б':
+                    case 'в':
+                    case 'г':
+                    case 'д':
+                    case 'ж':
+                    case 'з':
+                    case 'й':
+                    case 'к':
+                    case 'л':
+                    case 'щ':
+                    case 'Н':
+                    case 'м':
+                    case 'н':
+                    case 'п':
+                    case 'р':
+                    case 'с':
+                    case 'т':
+                    case 'ф':
+                    case 'х':
+                    case 'ц':
+                    case 'ч':
+                    case 'ш':
+                    case 'Б':
+                    case 'В':
+                    case 'Г':
+                    case 'Д':
+                    case 'Ж':
+                    case 'З':
+                    case 'Й':
+                    case 'К':
+                    case 'Л':
+                    case 'М':
+                    case 'П':
+                    case 'Р':
+                    case 'С':
+                    case 'Т':
+                    case 'Ф':
+                    case 'Х':
+                    case 'Ц':
+                    case 'Ч':
+                    case 'Ш':
+                    case 'Щ':
+                        cCount++;
+                        break;
+                }
+            }
+
+            return (vCount, cCount);
+        }
+
         static void Main(string[] args)
         {
-            int n = 1;
-            Console.WriteLine("vvedi kolichestvo iteraciy");
-            int count = Convert.ToInt32(Console.ReadLine());
-            int[] nums = new int[count];
-            List<string> pokupki = new List<string>();
-            for (int i = 1; i <= count; ++i) {
-                Console.WriteLine($"покупка {i}");
-                pokupki.Add(Console.ReadLine());
-            }
-
-            while (n != 0) {
-                Console.WriteLine("viberi");
-                n = Convert.ToInt32(Console.ReadLine());
-                switch (n)
-                {
-                    case 1:
-                        foreach( string s in pokupki){ 
-                            Console.WriteLine(s);
-                        }
-                        break;
-                    case 2:
-                        int schet = 0;
-                        foreach (string s in pokupki) {
-                            string[] words = s.Split(new char[] { ';' });
-                            nums[schet] = Convert.ToInt32(words[1]);
-                            schet++;
-                        }
-                        int summa = 0;
-                        foreach (int i in nums) {
-                            summa += i;
-                        }
-                        Bubble(nums);
-                        Console.WriteLine($"max: {nums[nums.Length-1]}, min: {nums[0]}, middle: {summa / nums.Length}");
-                        break;
-                    case 3:
-                        Bubble(nums);
-                        break;
-                    case 4:
-                        
-                        break;
-                    default:
-                        break;
-                }
-            }
-
+            Console.WriteLine(CountLetters("вавававааа"));
+            Console.WriteLine(WordCount(" Привет,   как   дела? "));
+            Console.WriteLine(CountSent("sыввыввыв ыв ы ыв вввы. ывывывыв ывафаа уа фва! ывывуап ва ууу аа ? ывывау  ауаава уау;"));
         }
     }
 }
