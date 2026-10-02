@@ -44,8 +44,8 @@ namespace ConsoleApp1
             string shortest = string.Empty;
             string longest = string.Empty;
 
-            int minLenght = int.MaxValue;
-            int maxLenght = 0;
+            int minLength = int.MaxValue;
+            int maxLength = 0;
 
             int wordStart = -1;
 
@@ -54,31 +54,35 @@ namespace ConsoleApp1
                 bool isEnd = i == s.Length;
                 bool isSep = !isEnd && (char.IsWhiteSpace(s[i]) || char.IsPunctuation(s[i]));
 
-                if (!isEnd && isSep)
+                if (!isSep && wordStart == -1)
                 {
-                    if (wordStart == -1)
-                    {
-                        wordStart = i;
-                    }
+                    wordStart = i;
                 }
-                else if (wordStart != -1)
+                else if (isSep && wordStart != -1)
                 {
-                    int currentLenght = i - wordStart;
+                    int currentLength = i - wordStart;
 
-                    if (currentLenght < minLenght)
+                    if (currentLength < minLength)
                     {
-                        minLenght = currentLenght;
-                        shortest = s.Substring(wordStart, currentLenght);
+                        minLength = currentLength;
+                        shortest = s.Substring(wordStart, currentLength);
                     }
 
-                    if (currentLenght > maxLenght)
+                    if (currentLength > maxLength)
                     {
-                        maxLenght = currentLenght;
-                        longest = s.Substring(wordStart, currentLenght);
+                        maxLength = currentLength;
+                        longest = s.Substring(wordStart, currentLength);
                     }
-                    wordStart = -1;
+
+                    wordStart = -1; 
                 }
             }
+
+            if (minLength == int.MaxValue)
+            {
+                shortest = string.Empty;
+            }
+
             return (longest, shortest);
         }
 
@@ -151,7 +155,6 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            // Список для сохранения всей статистики по прошлым текстам
             List<TextStatistics> history = new List<TextStatistics>();
             bool continueWork = true;
 
@@ -160,38 +163,28 @@ namespace ConsoleApp1
                 Console.WriteLine("Введите текст (минимум 100 символов):");
                 string input = Console.ReadLine();
 
-                // 1. Проверка на минимальную длину
                 if (string.IsNullOrEmpty(input) || input.Length < 100)
                 {
                     Console.WriteLine("Ошибка: строка должна быть длиной не менее 100 символов. Попробуйте снова.");
                     continue;
                 }
 
-                // 2. Подсчёт количества слов в тексте
                 int wordCount = WordCount(input);
 
-                // 3. Поиск самого короткого и самого длинного слова
-                // Используем Regex для корректного извлечения слов (игнорируя знаки препинания и пробелы)
-                var words = Regex.Matches(input, @"\p{L}+").Cast<Match>().Select(m => m.Value).ToList();
-                string shortestWord = words.Any() ? words.OrderBy(w => w.Length).ThenBy(w => w).First() : string.Empty;
-                string longestWord = words.Any() ? words.OrderByDescending(w => w.Length).ThenBy(w => w).First() : string.Empty;
+                var (maxl, minl) = FindMinAndMaxLenght(input);
 
-                // 4. Подсчёт количества предложений
                 int sentenceCount = CountSent(input);
 
-                // 5. Подсчёт количества гласных и согласных букв
                 var letterCounts = CountLetters(input);
 
-                // 6. Создание статистики по частоте встречаемости каждой буквы
                 Dictionary<char, int> letterFreq = Statistika(input);
 
-                // 7. Сохранение всей статистики в список
                 TextStatistics stats = new TextStatistics
                 {
                     TextPreview = input.Length > 40 ? input.Substring(0, 40) + "..." : input,
                     WordCount = wordCount,
-                    ShortestWord = shortestWord,
-                    LongestWord = longestWord,
+                    ShortestWord = minl,
+                    LongestWord = maxl,
                     SentenceCount = sentenceCount,
                     VowelCount = letterCounts.vowels,
                     ConsonantCount = letterCounts.consonants,
@@ -200,8 +193,7 @@ namespace ConsoleApp1
 
                 history.Add(stats);
 
-                // Вывод статистики текущего текста
-                Console.WriteLine("\n--- Статистика текущего текста ---");
+                Console.WriteLine("\nСтатистика текущего текста");
                 Console.WriteLine($"Количество слов: {stats.WordCount}");
                 Console.WriteLine($"Самое короткое слово: \"{stats.ShortestWord}\"");
                 Console.WriteLine($"Самое длинное слово: \"{stats.LongestWord}\"");
@@ -210,12 +202,14 @@ namespace ConsoleApp1
                 Console.WriteLine($"Согласных букв: {stats.ConsonantCount}");
 
                 Console.WriteLine("Частота встречаемости букв:");
-                foreach (var kvp in stats.LetterFrequency.OrderByDescending(kvp => kvp.Value).ThenBy(kvp => kvp.Key))
-                {
-                    Console.WriteLine($"  '{kvp.Key}': {kvp.Value}");
-                }
+                var pairs = new (char Key, int Value)[stats.LetterFrequency.Count];
+                int j = 0;
+                foreach (var kvp in stats.LetterFrequency)
+                    pairs[j++] = (kvp.Key, kvp.Value);
 
-                // 8. Меню действий (продолжить, история, выход)
+                foreach (var (key, value) in pairs)
+                    Console.Write($"'{key}': {value},  ");
+
                 Console.WriteLine("\nВыберите действие:");
                 Console.WriteLine("1. Продолжить работу с новым текстом");
                 Console.WriteLine("2. Показать статистику по прошлым текстам");
@@ -225,13 +219,14 @@ namespace ConsoleApp1
 
                 if (choice == "2")
                 {
-                    Console.WriteLine("\n--- История статистики ---");
+                    Console.WriteLine("\nИстория статистики");
                     if (history.Count == 0)
                     {
                         Console.WriteLine("История пуста.");
                     }
                     else
                     {
+                        int j1 = 0;
                         for (int i = 0; i < history.Count; i++)
                         {
                             var h = history[i];
@@ -239,9 +234,16 @@ namespace ConsoleApp1
                             Console.WriteLine($"Слов: {h.WordCount}, Предложений: {h.SentenceCount}");
                             Console.WriteLine($"Краткое: '{h.ShortestWord}', Длинное: '{h.LongestWord}'");
                             Console.WriteLine($"Гласных: {h.VowelCount}, Согласных: {h.ConsonantCount}");
+                            Console.WriteLine("Частота встречаемости букв:");
+                            var pairs1 = new (char Key, int Value)[stats.LetterFrequency.Count];
+                            foreach (var kvp1 in stats.LetterFrequency)
+                                pairs1[j1++] = (kvp1.Key, kvp1.Value);
+
+                            foreach (var (key, value) in pairs)
+                                Console.Write($"'{key}': {value},  ");
                         }
                     }
-                    Console.WriteLine("\nНажмите Enter для продолжения...");
+                    Console.WriteLine("\nНажмите Alt+F4 для продолжения...");
                     Console.ReadLine();
                 }
                 else if (choice == "3")
