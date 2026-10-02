@@ -226,7 +226,7 @@ namespace ConsoleApp1
                     }
                     else
                     {
-                        int j1 = 0;
+                        
                         for (int i = 0; i < history.Count; i++)
                         {
                             var h = history[i];
@@ -235,6 +235,7 @@ namespace ConsoleApp1
                             Console.WriteLine($"Краткое: '{h.ShortestWord}', Длинное: '{h.LongestWord}'");
                             Console.WriteLine($"Гласных: {h.VowelCount}, Согласных: {h.ConsonantCount}");
                             Console.WriteLine("Частота встречаемости букв:");
+                            int j1 = 0;
                             var pairs1 = new (char Key, int Value)[stats.LetterFrequency.Count];
                             foreach (var kvp1 in stats.LetterFrequency)
                                 pairs1[j1++] = (kvp1.Key, kvp1.Value);
