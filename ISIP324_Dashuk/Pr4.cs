@@ -33,7 +33,6 @@ namespace ConsoleApp4
             Price = price;
         }
 
-        // Вспомогательный метод для красивого отображения одной книги в таблице
         public void PrintRow()
         {
             string titleDisplay = Title.Length > 25 ? Title.Substring(0, 22) + "..." : Title;
@@ -79,7 +78,7 @@ namespace ConsoleApp4
                 switch (n)
                 {
                     case 1:
-                        if (books.Count == 0)
+                        if (!books.Any())
                         {
                             Console.WriteLine("Список книг пуст.");
                             break;
@@ -99,15 +98,15 @@ namespace ConsoleApp4
 
                     case 2:
                         Console.Write("Введите ID книги для удаления: ");
-                        if (int.TryParse(Console.ReadLine(), out int id) && id > 0 && id <= books.Count)
+                        Book removed = null;
+                        if (int.TryParse(Console.ReadLine(), out int id) && (removed = books.FirstOrDefault(b => b.ID == id)) != null)
                         {
-                            Book removed = books[id - 1];
-                            books.RemoveAt(id - 1);
+                            books.Remove(removed);
                             Console.WriteLine($"Книга \"{removed.Title}\" (ID: {removed.ID}) успешно удалена.");
                         }
                         else
                         {
-                            Console.WriteLine("Ошибка: неверный ID или список пуст. Проверьте диапазон (1–{books.Count}).");
+                            Console.WriteLine($"Ошибка: неверный ID или список пуст. Проверьте диапазон (1–{books.Count}).");
                         }
                         break;
 
@@ -125,11 +124,11 @@ namespace ConsoleApp4
                         switch (n1)
                         {
                             case 1:
-                                books.Sort((x, y) => string.Compare(x.Title, y.Title, StringComparison.Ordinal));
+                                books = books.OrderBy(b => b.Title, StringComparer.Ordinal).ToList();
                                 Console.WriteLine("Отсортировано по названию.");
                                 break;
                             case 2:
-                                books.Sort((x, y) => x.Year.CompareTo(y.Year));
+                                books = books.OrderBy(b => b.Year).ToList();
                                 Console.WriteLine("Отсортировано по году.");
                                 break;
                             default:
@@ -141,10 +140,9 @@ namespace ConsoleApp4
                     case 4:
                         if (books.Any())
                         {
-                            List<decimal> prices = books.Select(p => p.Price).ToList();
                             Console.WriteLine("Статистика цен:");
-                            Console.WriteLine($"Минимальная цена: {prices.Min():F2}");
-                            Console.WriteLine($"Максимальная цена: {prices.Max():F2}");
+                            Console.WriteLine($"Минимальная цена: {books.Min(b => b.Price):F2}");
+                            Console.WriteLine($"Максимальная цена: {books.Max(b => b.Price):F2}");
                         }
                         else
                         {
@@ -156,7 +154,7 @@ namespace ConsoleApp4
                         Console.WriteLine("Количество книг по авторам:");
                         Dictionary<string, int> dictionary = books.GroupBy(p => p.Author).ToDictionary(p => p.Key, p => p.Count());
 
-                        if (dictionary.Count == 0)
+                        if (!dictionary.Any())
                         {
                             Console.WriteLine("   Нет данных.");
                         }
@@ -197,10 +195,9 @@ namespace ConsoleApp4
                         }
 
                         Genre genre;
-                        string[] genreNames = Enum.GetNames(typeof(Genre));
                         while (true)
                         {
-                            Console.Write($"Жанр (выберите один: {string.Join(", ", genreNames)}): ");
+                            Console.Write($"Жанр (выберите один: {string.Join(", ", Enum.GetValues(typeof(Genre)).Cast<Genre>())}): ");
                             string input = Console.ReadLine()?.Trim();
 
                             if (Enum.TryParse<Genre>(input, true, out genre))
@@ -272,8 +269,7 @@ namespace ConsoleApp4
                         }
                         else if (option == "3")
                         {
-                            string[] genres = Enum.GetNames(typeof(Genre));
-                            Console.Write($"Жанр ({string.Join(", ", genres)}): ");
+                            Console.Write($"Жанр ({string.Join(", ", Enum.GetValues(typeof(Genre)).Cast<Genre>())}): ");
                             string input = Console.ReadLine()?.Trim() ?? "";
 
                             if (Enum.TryParse<Genre>(input, true, out Genre g))
@@ -292,7 +288,7 @@ namespace ConsoleApp4
                             break;
                         }
 
-                        if (found.Count == 0)
+                        if (!found.Any())
                         {
                             Console.WriteLine("\nНичего не найдено по вашему запросу.");
                         }
