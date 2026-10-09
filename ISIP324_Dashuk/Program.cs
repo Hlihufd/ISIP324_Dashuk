@@ -89,5 +89,38 @@ namespace ConsoleApp4
             Students = students ?? new List<Student>();
         }
     }
-}
 
+    internal class Program
+    {
+
+        static void main(string[] args)
+        {
+            List<Student> students = new List<Student>();
+            List<Teacher> teachers = new List<Teacher>();
+            Console.WriteLine("stt");
+            string name = Console.ReadLine();
+            if (int.TryParse(name, out int res))
+            {
+
+                int age = res;
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод: введите целое число.");
+            }
+            string phoneNumber = Console.ReadLine();
+            string address = Console.ReadLine();
+            string courseId = Console.ReadLine();
+            if (int.TryParse(courseId, out int res1))
+            {
+                Kurs kurs = (Kurs)res1;
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод: введите целое число.");
+            }
+            
+
+        }
+    }
+}
