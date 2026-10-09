@@ -46,6 +46,7 @@ namespace ConsoleApp4
 
             return number.Length >= 10 && number.Length <= 15;
         }
+
     }
 
     public enum Kurs
@@ -111,7 +112,7 @@ namespace ConsoleApp4
 
         private static void AddStudent()
         {
-            Console.WriteLine("\n--- Добавление студента ---");
+            Console.WriteLine("\nДобавление студента");
             Console.Write("Введите имя студента: ");
             string name = Console.ReadLine();
 
@@ -141,9 +142,10 @@ namespace ConsoleApp4
             }
             Kurs course = (Kurs)courseID;
 
-            Console.Write($"Введите предмет (1-{Enum.GetNames(typeof(Subject)).Length}): ");
+            Console.Write($"Введите предмет от 1 до {Enum.GetNames(typeof(Subject)).Length}: ");
             int subID;
-            while (!int.TryParse(Console.ReadLine(), out subID) || !Enum.IsDefined(typeof(Subject), subID))
+            while (!int.TryParse(Console.ReadLine(), out subID) || 
+                !Enum.IsDefined(typeof(Subject), subID))
             {
                 Console.Write($"Некорректный предмет. Введите число от 1 до {Enum.GetNames(typeof(Subject)).Length}: ");
             }
@@ -164,6 +166,7 @@ namespace ConsoleApp4
         }
         private static void AddTeacher()
         {
+            Console.WriteLine("\nДобавление преподавателя");
             Console.WriteLine("Введите имя преподавателя:");
             string name = Console.ReadLine();
 
@@ -185,9 +188,9 @@ namespace ConsoleApp4
             Console.Write("Введите адрес преподавателя: ");
             string address = Console.ReadLine();
 
-            Console.WriteLine($"Введите предмет преподавателя 1 - {Enum.GetNames(typeof(Subject)).Length}");
+            Console.WriteLine($"Введите предмет преподавателя от 1 до {Enum.GetNames(typeof(Subject)).Length}: ");
             int subID;
-            while (!int.TryParse(Console.ReadLine(), out subID) || Enum.IsDefined(typeof(Subject), subID))
+            while (!int.TryParse(Console.ReadLine(), out subID) || !Enum.IsDefined(typeof(Subject), subID))
             {
                 Console.Write($"Некорректный предмет. Введите число от 1 до {Enum.GetNames(typeof(Subject)).Length}: ");
             }
@@ -208,20 +211,31 @@ namespace ConsoleApp4
                 Console.WriteLine($"Ошибка при создании {ex.Message}"); ;
             }
         }
-
+        static void ShowMenu()
+        {
+            Console.WriteLine("\nMenu");
+            Console.WriteLine("1 – Добавить студента");
+            Console.WriteLine("2 – Добавить преподавателя");
+            Console.WriteLine("3 – Показать всех преподавателей и их студентов");
+            Console.WriteLine("0 – Выход");
+            Console.Write("Выберите действие:");
+        }
         static void Main(string[] args)
         {
 
-            int n = Convert.ToInt32(Console.ReadLine());
-            while (n!= 0)
+            int n;
+
+           
+            while (true)
             {
-                n = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("\nMenu");
-                Console.WriteLine("1 - Добавить студента");
-                Console.WriteLine("2 - Добавить преподавателя");
-                Console.WriteLine("3 - Показать всех преподавателей и их студентов");
-                Console.WriteLine("0 - Выход");
-                Console.Write("Выберите действие: ");
+                ShowMenu();
+
+                if (!int.TryParse(Console.ReadLine(), out n))
+                {
+                    Console.WriteLine("Ошибка: введите корректное число.");
+                    continue; 
+                }
+
                 switch (n)
                 {
                     case 1:
@@ -230,12 +244,22 @@ namespace ConsoleApp4
                     case 2:
                         AddTeacher();
                         break;
+                    case 3:
+                        foreach(var teacher in allTeachers)
+                        {
+                            Console.WriteLine($"{teacher.Name}, {teacher.Age}, {teacher.PhoneNumber}, {teacher.Subject}, студенты: ");
+                            foreach (var student in teacher.Students) Console.WriteLine(student.Name);
+                        }
+                        break;
+                    case 0:
+                        Console.WriteLine("Выход из программы.");
+                        return; 
                     default:
-                        Console.WriteLine("sdsds");
+                        Console.WriteLine("Неверный выбор. Попробуйте снова.");
                         break;
                 }
             }
         }
-            
+
     }
 }
