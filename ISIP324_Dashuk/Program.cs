@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleApp4
 {
@@ -31,6 +32,7 @@ namespace ConsoleApp4
             Address = address;
         }
 
+        // Возвращаем private, как вы и просили
         private static bool IsValidPhoneNumber(string number)
         {
             if (string.IsNullOrWhiteSpace(number))
@@ -92,35 +94,148 @@ namespace ConsoleApp4
 
     internal class Program
     {
-
-        static void main(string[] args)
+        private static List<Student> allStudents = new List<Student>();
+        private static List<Teacher> allTeachers = new List<Teacher>();
+        private static bool TryValidatePhone(string phone)
         {
-            List<Student> students = new List<Student>();
-            List<Teacher> teachers = new List<Teacher>();
-            Console.WriteLine("stt");
-            string name = Console.ReadLine();
-            if (int.TryParse(name, out int res))
+            try
             {
-
-                int age = res;
+                var temp = new People("", 0, phone, "");
+                return true;
             }
-            else
+            catch (ArgumentException)
             {
-                Console.WriteLine("Некорректный ввод: введите целое число.");
+                return false;
             }
-            string phoneNumber = Console.ReadLine();
-            string address = Console.ReadLine();
-            string courseId = Console.ReadLine();
-            if (int.TryParse(courseId, out int res1))
-            {
-                Kurs kurs = (Kurs)res1;
-            }
-            else
-            {
-                Console.WriteLine("Некорректный ввод: введите целое число.");
-            }
-            
-
         }
+
+        private static void AddStudent()
+        {
+            Console.WriteLine("\n--- Добавление студента ---");
+            Console.Write("Введите имя студента: ");
+            string name = Console.ReadLine();
+
+            Console.Write("Введите возраст студента: ");
+            int age = 0;
+            while (!int.TryParse(Console.ReadLine(), out age) || age <= 0 || age > 120)
+            {
+                Console.Write("Некорректный возраст. Введите целое число от 1 до 120: ");
+            }
+
+            Console.Write("Введите номер телефона студента: ");
+            string phoneNumber = Console.ReadLine();
+            while (!TryValidatePhone(phoneNumber))
+            {
+                Console.Write("Некорректный номер. Введите только цифры (10-15 знаков): ");
+                phoneNumber = Console.ReadLine();
+            }
+
+            Console.Write("Введите адрес студента: ");
+            string address = Console.ReadLine();
+
+            Console.Write($"Введите курс студента (1-{Enum.GetNames(typeof(Kurs)).Length}): ");
+            int courseID;
+            while (!int.TryParse(Console.ReadLine(), out courseID) || !Enum.IsDefined(typeof(Kurs), courseID))
+            {
+                Console.Write($"Некорректный курс. Введите число от 1 до {Enum.GetNames(typeof(Kurs)).Length}: ");
+            }
+            Kurs course = (Kurs)courseID;
+
+            Console.Write($"Введите предмет (1-{Enum.GetNames(typeof(Subject)).Length}): ");
+            int subID;
+            while (!int.TryParse(Console.ReadLine(), out subID) || !Enum.IsDefined(typeof(Subject), subID))
+            {
+                Console.Write($"Некорректный предмет. Введите число от 1 до {Enum.GetNames(typeof(Subject)).Length}: ");
+            }
+            Subject sub = (Subject)subID;
+
+            try
+            {
+                Student student = new Student(name, age, phoneNumber, address, course, sub);
+
+                allStudents.Add(student);
+
+                Console.WriteLine("\nСтудент успешно создан и добавлен в базу!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при создании: {ex.Message}");
+            }
+        }
+        private static void AddTeacher()
+        {
+            Console.WriteLine("Введите имя преподавателя:");
+            string name = Console.ReadLine();
+
+            Console.Write("Введите возраст преподавателя: ");
+            int age = 0;
+            while (!int.TryParse(Console.ReadLine(), out age) || age <= 20 || age > 120)
+            {
+                Console.Write("Некорректный возраст. Введите целое число от 21 до 120: ");
+            }
+
+            Console.Write("Введите номер телефона преподавателя: ");
+            string phoneNumber = Console.ReadLine();
+            while (!TryValidatePhone(phoneNumber))
+            {
+                Console.Write("Некорректный номер. Введите только цифры (10-15 знаков): ");
+                phoneNumber = Console.ReadLine();
+            }
+
+            Console.Write("Введите адрес преподавателя: ");
+            string address = Console.ReadLine();
+
+            Console.WriteLine($"Введите предмет преподавателя 1 - {Enum.GetNames(typeof(Subject)).Length}");
+            int subID;
+            while (!int.TryParse(Console.ReadLine(), out subID) || Enum.IsDefined(typeof(Subject), subID))
+            {
+                Console.Write($"Некорректный предмет. Введите число от 1 до {Enum.GetNames(typeof(Subject)).Length}: ");
+            }
+            Subject teachersub = (Subject)subID;
+
+            List<Student> assignedStudents = allStudents.Where(p => p.Subjects.Contains(teachersub)).ToList();
+
+            try
+            {
+                Teacher teacher = new Teacher(name, age, phoneNumber, address, teachersub, assignedStudents);
+                allTeachers.Add(teacher);
+
+                Console.WriteLine($"\nПреподаватель успешно создан!");
+                Console.WriteLine($"К нему автоматически привязано {assignedStudents.Count} студентов по предмету '{teachersub}'.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при создании {ex.Message}"); ;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+
+            int n = Convert.ToInt32(Console.ReadLine());
+            while (n!= 0)
+            {
+                n = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("\nMenu");
+                Console.WriteLine("1 - Добавить студента");
+                Console.WriteLine("2 - Добавить преподавателя");
+                Console.WriteLine("3 - Показать всех преподавателей и их студентов");
+                Console.WriteLine("0 - Выход");
+                Console.Write("Выберите действие: ");
+                switch (n)
+                {
+                    case 1:
+                        AddStudent();
+                        break;
+                    case 2:
+                        AddTeacher();
+                        break;
+                    default:
+                        Console.WriteLine("sdsds");
+                        break;
+                }
+            }
+        }
+            
     }
 }
