@@ -5,12 +5,12 @@ namespace Roguelike
 {
     public enum Rarity
     {
-        Common = 1, // 50%
+        Common = 1, // 45%
         Uncommon,   // 25%
         Rare,       // 15%
-        Mythical,   // 7%
-        Immortal,   // 2.9%
-        Arcana      // 0.1%
+        Mythical,   // 8%
+        Immortal,   // 5%
+        Arcana      // 2%
     }
 
     public enum ItemType
@@ -108,11 +108,11 @@ namespace Roguelike
         private Rarity RollRarity()
         {
             double roll = _rng.NextDouble() * 100.0;
-            if (roll < 50.0) return Rarity.Common;
-            if (roll < 75.0) return Rarity.Uncommon;
-            if (roll < 90.0) return Rarity.Rare;
-            if (roll < 97.0) return Rarity.Mythical;
-            if (roll < 99.9) return Rarity.Immortal;
+            if (roll < 45.0) return Rarity.Common;
+            if (roll < 70.0) return Rarity.Uncommon;
+            if (roll < 85.0) return Rarity.Rare;
+            if (roll < 93.0) return Rarity.Mythical;
+            if (roll < 98.0) return Rarity.Immortal;
             return Rarity.Arcana;
         }
 
