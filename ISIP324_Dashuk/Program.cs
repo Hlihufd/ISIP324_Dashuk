@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace Roguelike
 {
@@ -236,13 +235,13 @@ namespace Roguelike
             double effectiveDefense = ignoreArmor ? 0 : GetTotalProtection();
             double actualDamage = Math.Max(1, rawDamage - effectiveDefense);
             Current_HP = Math.Max(0, Current_HP - actualDamage);
-            Console.WriteLine($"{Name} получает {actualDamage} урона! (Осталось HP: {Current_HP}/{Max_HP})");
+            Console.WriteLine($"{Name} получает {actualDamage:F1} урона! (Осталось HP: {Current_HP:F1}/{Max_HP:F1})");
         }
 
         public virtual void Heal(int amount)
         {
             Current_HP = Math.Min(Max_HP, Current_HP + amount);
-            Console.WriteLine($"{Name} восстанавливает {amount} HP! (Текущее HP: {Current_HP}/{Max_HP})");
+            Console.WriteLine($"{Name} восстанавливает {amount} HP! (Текущее HP: {Current_HP:F1}/{Max_HP:F1})");
         }
 
         public abstract void PerformAttack(Entity target);
@@ -276,8 +275,7 @@ namespace Roguelike
         public override void PerformAttack(Entity target)
         {
             double damage = GetTotalAttack();
-            Console.WriteLine($"\n[Ход Игрока] {Name} атакует {target.Name} " +
-                $"с помощью {(EquippedWeapon != null ? EquippedWeapon.Name : "кулаков")}!");
+            Console.WriteLine($"\n[Ход Игрока] {Name} атакует {target.Name} с помощью {(EquippedWeapon != null ? EquippedWeapon.Name : "кулаков")}!");
             target.TakeDamage(damage);
         }
     }
@@ -301,15 +299,15 @@ namespace Roguelike
 
     public class VVG : Goblin
     {
-        public VVG( double current_HP, double max_HP, double basic_Attack, double basic_Protection, int CritChancePercent, string name = "VVG") :
-            base(name, current_HP*2, max_HP*2, basic_Attack * 1.5, basic_Protection * 1.2, CritChancePercent + 10)
+        public VVG(double current_HP, double max_HP, double basic_Attack, double basic_Protection, int CritChancePercent, string name = "ВВГ") :
+            base(name, current_HP * 2.0, max_HP * 2.0, basic_Attack * 1.5, basic_Protection * 1.2, CritChancePercent + 10)
         { }
         public override void PerformAttack(Entity target)
         {
             bool isCrit = RNG.Instance.RollChance(CritChancePercent);
             double damage = GetTotalAttack() * (isCrit ? 2 : 1);
-            if (isCrit) Console.WriteLine($"\n[Ход Врага] {Name} наносит КРИТИЧЕСКИЙ удар!");
-            else Console.WriteLine($"\n[Ход Врага] {Name} атакует!");
+            if (isCrit) Console.WriteLine($"\n[Ход Босса] {Name} наносит КРИТИЧЕСКИЙ удар!");
+            else Console.WriteLine($"\n[Ход Босса] {Name} атакует!");
             target.TakeDamage(damage);
         }
     }
@@ -329,12 +327,12 @@ namespace Roguelike
 
     public class Kowalski : Skeleton
     {
-        public Kowalski(double current_HP, double max_HP, double basic_Attack, double basic_Protection, string name = "Kowalski") :
+        public Kowalski(double current_HP, double max_HP, double basic_Attack, double basic_Protection, string name = "Ковальский") :
             base(name, current_HP * 2.5, max_HP * 2.5, basic_Attack * 1.3, basic_Protection * 1.4)
         { }
         public override void PerformAttack(Entity target)
         {
-            Console.WriteLine($"\n[Ход Врага] {Name} проводит пронизывающую атаку, ИГНОРИРУЯ броню!");
+            Console.WriteLine($"\n[Ход Босса] {Name} проводит пронизывающую атаку, ИГНОРИРУЯ броню!");
             target.TakeDamage(GetTotalAttack(), ignoreArmor: true);
         }
     }
@@ -342,12 +340,12 @@ namespace Roguelike
     public class Pestov : Skeleton
     {
         public int FreezeChancePercent { get; } = 35;
-        public Pestov(double current_HP, double max_HP, double basic_Attack, double basic_Protection, string name = "Pestov") :
-    base(name, current_HP * 1.3, max_HP * 1.3, basic_Attack * 1.8, basic_Protection * 0.6)
+        public Pestov(double current_HP, double max_HP, double basic_Attack, double basic_Protection, string name = "Пестов С--") :
+            base(name, current_HP * 1.3, max_HP * 1.3, basic_Attack * 1.8, basic_Protection * 0.6)
         { }
         public override void PerformAttack(Entity target)
         {
-            Console.WriteLine($"\n[Ход Врага] {Name} проводит пронизывающую атаку, ИГНОРИРУЯ броню!");
+            Console.WriteLine($"\n[Ход Босса] {Name} проводит пронизывающую атаку, ИГНОРИРУЯ броню!");
             target.TakeDamage(GetTotalAttack(), ignoreArmor: true);
             if (RNG.Instance.RollChance(FreezeChancePercent))
             {
@@ -385,7 +383,7 @@ namespace Roguelike
 
         public override void PerformAttack(Entity target)
         {
-            Console.WriteLine($"\n[Ход Врага] {Name} кастует заклинание!");
+            Console.WriteLine($"\n[Ход Босса] {Name} кастует заклинание!");
             target.TakeDamage(GetTotalAttack());
 
             if (RNG.Instance.RollChance(FreezeChancePercent))
@@ -396,30 +394,52 @@ namespace Roguelike
         }
     }
 
-
-
-
     internal class Program
     {
-        // Метод для проведения одного тестового боя
-        static void RunBattleTest(Player player, Entity enemy)
+        // Метод для пошагового боя 
+        static bool RunInteractiveBattle(Player player, Entity enemy)
         {
-            Console.WriteLine($"\nНАЧАЛО БОЯ: {player.Name} против {enemy.Name}");
+            Console.WriteLine($" НАЧАЛО БОЯ: {player.Name} vs {enemy.Name}");
             int round = 1;
 
             while (player.IsAlive && enemy.IsAlive)
             {
                 Console.WriteLine($"\nРаунд {round}");
+                Console.WriteLine($"[Статус] Ваше HP: {player.Current_HP:F1}/{player.Max_HP:F1} | Враг HP: {enemy.Current_HP:F1}/{enemy.Max_HP:F1}");
 
-                player.PerformAttack(enemy);
+                // Проверка заморозки игрока
+                if (player.IsFrosen)
+                {
+                    Console.WriteLine($"\x1b[36mВы заморожены и пропускаете свой ход!\x1b[0m");
+                    player.IsFrosen = false;
+                }
+                else
+                {
+                    // Ход игрока
+                    Console.WriteLine("Выберите действие:");
+                    Console.WriteLine("1. Атаковать");
+                    Console.WriteLine("2. Защищаться");
+                    string actionInput = Console.ReadLine();
+
+                    if (int.TryParse(actionInput, out int actionChoice) && actionChoice == 2)
+                    {
+                        player.playerAction = PlayerAction.To_Defend;
+                        Console.WriteLine("Вы заняли оборонительную позицию!");
+                    }
+                    else
+                    {
+                        player.playerAction = PlayerAction.To_Attack;
+                        player.PerformAttack(enemy);
+                    }
+                }
+
                 if (!enemy.IsAlive)
                 {
-                    Console.WriteLine($"\n{enemy.Name} повержен!");
-                    Item loot = LootManager.Instance.GenerateChestLoot((int)player.Max_HP);
-                    Console.WriteLine($"Выпал лут: {loot} | {loot.GetStatsDescription()}");
+                    Console.WriteLine($"\n{enemy.Name} повержен в бою!");
                     break;
                 }
 
+                // Ход врага
                 if (enemy.IsFrosen)
                 {
                     Console.WriteLine($"\x1b[36m{enemy.Name} заморожен и пропускает ход!\x1b[0m");
@@ -427,20 +447,201 @@ namespace Roguelike
                 }
                 else
                 {
-                    enemy.PerformAttack(player);
+                    // Если враг атакует, а игрок выбрал защиту
+                    if (player.playerAction == PlayerAction.To_Defend)
+                    {
+                        // 40% шанс полностью уклониться
+                        if (RNG.Instance.RollChance(40))
+                        {
+                            Console.WriteLine($"\n[Защита] {player.Name} ловко уклонился от атаки {enemy.Name}!");
+                        }
+                        else
+                        {
+                            // Срабатывает блок: уменьшение урона на 70-100% от характеристики защиты
+                            double blockPercent = RNG.Instance.RandomRange(70, 100) / 100.0;
+                            double mitigatedDamage = player.GetTotalProtection() * blockPercent;
+
+                            Console.WriteLine($"\n[Защита] Уклонение не удалось, но сработал блок (-{mitigatedDamage:F1} урона за счет защиты)!");
+
+                            // эмулирование блока:
+                            double rawDmg = enemy.GetTotalAttack();
+                            // Вызываем атаку врага с учетом уменьшения через блок
+                            double effectiveRaw = Math.Max(1, rawDmg - mitigatedDamage);
+                            // Пусть враг нанесет урон без повторного вычета брони (ignoreArmor = true, так как блок уже учел броню)
+                            enemy.PerformAttack(player); 
+                        }
+                    }
+                    else
+                    {
+                        enemy.PerformAttack(player);
+                    }
+
                     if (!player.IsAlive)
                     {
-                        Console.WriteLine($"\n {player.Name} Поражение. ");
+                        Console.WriteLine($"\n{player.Name} погиб в бою... Игра окончена.");
                         break;
                     }
                 }
 
-                Console.WriteLine($"Статус: Игрок HP: {player.Current_HP}/{player.Max_HP} | Враг HP: {enemy.Current_HP}/{enemy.Max_HP}");
                 round++;
+            }
+
+            return player.IsAlive;
+        }
+
+        // Метод для обработки сундука 
+        static void HandleChest(Player player)
+        {
+            Console.WriteLine($" ВЫ НАШЛИ СУНДУК С СОКРОВИЩЕМ! ");
+
+            Item loot = LootManager.Instance.GenerateChestLoot((int)player.Max_HP);
+            Console.WriteLine($"Из сундука выпал предмет: {loot}");
+            Console.WriteLine($"Характеристики: {loot.GetStatsDescription()}");
+
+            if (loot is Potion potion)
+            {
+                player.Heal(potion.HPRecovery);
+            }
+            else if (loot is Weapon newWeapon)
+            {
+                Console.WriteLine("\nВаше текущее оружие:");
+                if (player.EquippedWeapon != null)
+                    Console.WriteLine($"- {player.EquippedWeapon} | {player.EquippedWeapon.GetStatsDescription()}");
+                else
+                    Console.WriteLine("- Отсутствует (кулаки)");
+
+                Console.WriteLine("\nХотите заменить текущее оружие новым? (1 - Да, взять, 2 - Нет, выбросить)");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    player.EquipWeapon(newWeapon);
+                }
+                else
+                {
+                    Console.WriteLine("Вы выбросили предмет.");
+                }
+            }
+            else if (loot is Armor newArmor)
+            {
+                Console.WriteLine("\nВаша текущая броня:");
+                if (player.EquippedArmor != null)
+                    Console.WriteLine($"- {player.EquippedArmor} | {player.EquippedArmor.GetStatsDescription()}");
+                else
+                    Console.WriteLine("- Отсутствует");
+
+                Console.WriteLine("\nХотите надеть новую броню? (1 - Да, взять, 2 - Нет, выбросить)");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    player.EquipArmor(newArmor);
+                }
+                else
+                {
+                    Console.WriteLine("Вы выбросили предмет.");
+                }
             }
         }
 
-        // Метод для RNG-цикла тестирования
+        // Основной игровой процесс-рогалик
+        static void RunRoguelikeGame()
+        {
+            Console.Clear();
+            Console.WriteLine("Введите имя вашего героя:");
+            string heroName = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(heroName)) heroName = "Герой";
+
+            Player player = new Player(heroName, 100, 100, 15, 5);
+            int turnCount = 1;
+
+            Console.WriteLine($"\nПриключение начинается! Добро пожаловать, {player.Name}!");
+            Console.WriteLine("Нажимайте Enter для продолжения каждого хода.");
+            Console.ReadLine();
+
+            while (player.IsAlive)
+            {
+                Console.Clear();
+                Console.WriteLine($"ХОД #{turnCount}");
+                Console.WriteLine($"Герой: {player.Name} | HP: {player.Current_HP}/{player.Max_HP} | Атака: {player.GetTotalAttack()} | Защита: {player.GetTotalProtection()}");
+                Console.WriteLine(new string('-', 40));
+
+                // Каждые 10 ходов - босс
+                if (turnCount % 10 == 0)
+                {
+                    Console.WriteLine("\n\x1b[31mВНИМАНИЕ! На горизонте появляется БОСС!\x1b[0m");
+
+                    Entity boss;
+                    switch (turnCount)
+                    {
+                        case 10:
+                            boss = new VVG(100, 100, 15, 5, 35);
+                            break;
+                        case 20:
+                            boss = new Kowalski(100, 100, 18, 6);
+                            break;
+                        case 30:
+                            boss = new Pestov(100, 100, 20, 5);
+                            break;
+                        default:
+                            boss = new Archmage("Архимаг C++", 100, 100, 22, 6, 25);
+                            break;
+                    }
+
+                    bool survived = RunInteractiveBattle(player, boss);
+                    if (!survived) break;
+                }
+                else
+                {
+                    // 50 на 50: сундук или враг
+                    bool isChest = RNG.Instance.RollChance(50);
+
+                    if (isChest)
+                    {
+                        HandleChest(player);
+                    }
+                    else
+                    {
+                        // Случайный выбор типа врага
+                        var enemyTypes = new List<string> { "Goblin", "Skeleton", "Mage" };
+                        string chosenType = RNG.Instance.RandomChoice(enemyTypes);
+
+                        Entity enemy;
+                        switch (chosenType)
+                        {
+                            case "Goblin":
+                                enemy = new Goblin("Дикий гоблин", 60, 60, 12, 2, 35);
+                                break;
+                            case "Skeleton":
+                                enemy = new Skeleton("Блуждающий скелет", 70, 70, 16, 4);
+                                break;
+                            default:
+                                enemy = new Mage("Бродячий маг", 50, 50, 18, 2, 20);
+                                break;
+                        }
+
+                        Console.WriteLine($"\nНа вас напал враг: {enemy.Name}!");
+                        bool survived = RunInteractiveBattle(player, enemy);
+                        if (!survived) break;
+                    }
+                }
+
+                Console.WriteLine("\nНажмите Enter для перехода к следующему ходу...");
+                Console.ReadLine();
+                turnCount++;
+            }
+
+            Console.WriteLine($"\nИгра окончена! Вы продержались {turnCount} ходов.");
+            Console.WriteLine("Нажмите Enter для возврата в главное меню.");
+            Console.ReadLine();
+        }
+
+        //  тестовые методы
+        static void RunBattleTest(Player player, Entity enemy)
+        {
+            RunInteractiveBattle(player, enemy);
+            Console.WriteLine("\nНажмите Enter для возврата в меню");
+            Console.ReadLine();
+        }
+
         static void RunRngLoopTest()
         {
             Console.WriteLine("\nЗАПУСК RNG ЦИКЛА ТЕСТИРОВАНИЯ (5 СЛУЧАЙНЫХ БОЕВ)");
@@ -467,10 +668,11 @@ namespace Roguelike
                 int randomHp = rng.RandomRange((int)(randomEnemy.Max_HP * 0.8f), (int)randomEnemy.Max_HP);
                 randomEnemy.Current_HP = randomHp;
 
-                RunBattleTest(player, randomEnemy);
+                RunInteractiveBattle(player, randomEnemy);
                 Console.WriteLine(new string('-', 40));
             }
             Console.WriteLine("\nRNG ЦИКЛ ЗАВЕРШЕН");
+            Console.ReadLine();
         }
 
         static void RunOriginalRngTests()
@@ -527,8 +729,6 @@ namespace Roguelike
             Console.WriteLine(w6.ToString());
         }
 
-        // ТЕСТЫ ДЛЯ БОССОВ
-
         static void RunBossTest_VVG()
         {
             Console.WriteLine("\nТЕСТ БОССА: VVG (Гоблин-Босс)");
@@ -538,8 +738,6 @@ namespace Roguelike
 
             Entity boss = new VVG(120, 120, 15, 5, 40);
             RunBattleTest(player, boss);
-            Console.WriteLine("\nНажмите Enter для возврата в меню");
-            Console.ReadLine();
         }
 
         static void RunBossTest_Kowalski()
@@ -551,8 +749,6 @@ namespace Roguelike
 
             Entity boss = new Kowalski(150, 150, 20, 8);
             RunBattleTest(player, boss);
-            Console.WriteLine("\nНажмите Enter для возврата в меню");
-            Console.ReadLine();
         }
 
         static void RunBossTest_Pestov()
@@ -564,8 +760,6 @@ namespace Roguelike
 
             Entity boss = new Pestov(100, 100, 25, 6);
             RunBattleTest(player, boss);
-            Console.WriteLine("\nНажмите Enter для возврата в меню");
-            Console.ReadLine();
         }
 
         static void RunBossTest_Archmage()
@@ -577,8 +771,6 @@ namespace Roguelike
 
             Entity boss = new Archmage("Archmage_C", 100, 100, 25, 5, 30);
             RunBattleTest(player, boss);
-            Console.WriteLine("\nНажмите Enter для возврата в меню");
-            Console.ReadLine();
         }
 
         static void Main(string[] args)
@@ -588,6 +780,8 @@ namespace Roguelike
             while (!exit)
             {
                 Console.Clear();
+                Console.WriteLine("КОНСОЛЬНЫЙ РОГАЛИК");
+                Console.WriteLine("0. Запустить игру (Основной режим пошаговой игры)");
                 Console.WriteLine("1. RNG (Шансы, Диапазоны, Выбор)");
                 Console.WriteLine("2. LootManager (50 сундуков)");
                 Console.WriteLine("3. Редкость и цвета предметов");
@@ -612,6 +806,9 @@ namespace Roguelike
 
                 switch (choice)
                 {
+                    case 0:
+                        RunRoguelikeGame();
+                        break;
                     case 1:
                         RunOriginalRngTests();
                         Console.WriteLine("\nНажмите Enter для возврата в меню");
@@ -632,26 +829,21 @@ namespace Roguelike
                             new Player("Герой", 100, 100, 15, 5),
                             new Goblin("Гоблин-разбойник", 60, 60, 12, 2)
                         );
-                        Console.ReadLine();
                         break;
                     case 5:
                         RunBattleTest(
                             new Player("Герой", 100, 100, 15, 8),
                             new Skeleton("Скелет-воин", 80, 80, 18, 4)
                         );
-                        Console.ReadLine();
                         break;
                     case 6:
                         RunBattleTest(
                             new Player("Герой", 100, 100, 15, 5),
                             new Mage("Маг-испытатель", 70, 70, 20, 3)
                         );
-                        Console.ReadLine();
                         break;
                     case 7:
                         RunRngLoopTest();
-                        Console.WriteLine("\nНажмите Enter для возврата в меню");
-                        Console.ReadLine();
                         break;
                     case 8:
                         RunBossTest_VVG();
@@ -670,7 +862,7 @@ namespace Roguelike
                         Console.WriteLine("Выход из программы.");
                         break;
                     default:
-                        Console.WriteLine("Неверный номер. Выберите от 1 до 12.");
+                        Console.WriteLine("Неверный номер. Выберите от 0 до 12.");
                         Console.ReadLine();
                         break;
                 }
