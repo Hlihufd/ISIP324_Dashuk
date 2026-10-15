@@ -141,13 +141,13 @@ namespace Roguelike
             while (player.IsAlive)
             {
                 Console.Clear();
-                Console.WriteLine($"#{turnCount}");
+                Console.WriteLine($"=== ХОД #{turnCount} ===");
                 Console.WriteLine($"Герой: {player.Name} | HP: {player.Current_HP}/{player.Max_HP} | Атака: {player.GetTotalAttack()} | Защита: {player.GetTotalProtection()}");
                 Console.WriteLine(new string('-', 40));
 
                 if (turnCount % 10 == 0)
                 {
-                    Console.WriteLine("\n\x1b[31mВНИМАНИЕ! На горизонте появляется БОСС!\x1b[0m");
+                    Console.WriteLine("\n\x1b[31mВНИМАНИЕ! Чувствуется тяжелая аура... На горизонте появляется МОГУЩЕСТВЕННЫЙ БОСС!\x1b[0m");
 
                     Entity boss;
                     switch (turnCount)
