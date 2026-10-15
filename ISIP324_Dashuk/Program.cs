@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Roguelike
 {
@@ -210,15 +211,15 @@ namespace Roguelike
     public abstract class Entity
     {
         public string Name { get; protected set; }
-        public float Current_HP { get;  set; }
-        public float Max_HP { get; protected set; }
-        public int Basic_Attack { get; protected set; }
-        public int Basic_Protection { get; protected set; }
+        public double Current_HP { get; set; }
+        public double Max_HP { get; protected set; }
+        public double Basic_Attack { get; protected set; }
+        public double Basic_Protection { get; protected set; }
 
         public bool IsAlive => Current_HP > 0;
         public bool IsFrosen { get; set; } = false;
 
-        protected Entity(string name, float current_HP, float max_HP, int basic_Attack, int basic_Protection)
+        protected Entity(string name, double current_HP, double max_HP, double basic_Attack, double basic_Protection)
         {
             Name = name;
             Current_HP = Math.Min(current_HP, max_HP);
@@ -227,13 +228,13 @@ namespace Roguelike
             Basic_Protection = basic_Protection;
         }
 
-        public virtual int GetTotalAttack() => Basic_Attack;
-        public virtual int GetTotalProtection() => Basic_Protection;
+        public virtual double GetTotalAttack() => Basic_Attack;
+        public virtual double GetTotalProtection() => Basic_Protection;
 
-        public virtual void TakeDamage(int rawDamage, bool ignoreArmor = false)
+        public virtual void TakeDamage(double rawDamage, bool ignoreArmor = false)
         {
-            int effectiveDefense = ignoreArmor ? 0 : GetTotalProtection();
-            int actualDamage = Math.Max(1, rawDamage - effectiveDefense);
+            double effectiveDefense = ignoreArmor ? 0 : GetTotalProtection();
+            double actualDamage = Math.Max(1, rawDamage - effectiveDefense);
             Current_HP = Math.Max(0, Current_HP - actualDamage);
             Console.WriteLine($"{Name} получает {actualDamage} урона! (Осталось HP: {Current_HP}/{Max_HP})");
         }
@@ -253,7 +254,7 @@ namespace Roguelike
         public Weapon EquippedWeapon { get; set; }
         public PlayerAction playerAction { get; set; }
 
-        public Player(string name, float current_HP, float max_HP, int basic_Attack, int basic_Protection) :
+        public Player(string name, double current_HP, double max_HP, int basic_Attack, int basic_Protection) :
             base(name, current_HP, max_HP, basic_Attack, basic_Protection)
         { }
 
@@ -269,12 +270,12 @@ namespace Roguelike
             Console.WriteLine($"Вы надели броню: {armor.Name} (+{armor.DefenseBonus} к защите)");
         }
 
-        public override int GetTotalAttack() => Basic_Attack + (EquippedWeapon?.AttackBonus ?? 0);
-        public override int GetTotalProtection() => Basic_Protection + (EquippedArmor?.DefenseBonus ?? 0);
+        public override double GetTotalAttack() => Basic_Attack + (EquippedWeapon?.AttackBonus ?? 0);
+        public override double GetTotalProtection() => Basic_Protection + (EquippedArmor?.DefenseBonus ?? 0);
 
         public override void PerformAttack(Entity target)
         {
-            int damage = GetTotalAttack();
+            double damage = GetTotalAttack();
             Console.WriteLine($"\n[Ход Игрока] {Name} атакует {target.Name} " +
                 $"с помощью {(EquippedWeapon != null ? EquippedWeapon.Name : "кулаков")}!");
             target.TakeDamage(damage);
@@ -283,15 +284,30 @@ namespace Roguelike
 
     public class Goblin : Entity
     {
-        public int CritChancePercent { get; } = 30;
-        public Goblin(string name, float current_HP, float max_HP, int basic_Attack, int basic_Protection) :
+        public int CritChancePercent { get; }
+        public Goblin(string name, double current_HP, double max_HP, double basic_Attack, double basic_Protection, int CritChancePercent = 35) :
             base(name, current_HP, max_HP, basic_Attack, basic_Protection)
-        { }
+        { this.CritChancePercent = CritChancePercent; }
 
         public override void PerformAttack(Entity target)
         {
             bool isCrit = RNG.Instance.RollChance(CritChancePercent);
-            int damage = GetTotalAttack() * (isCrit ? 2 : 1);
+            double damage = GetTotalAttack() * (isCrit ? 2 : 1);
+            if (isCrit) Console.WriteLine($"\n[Ход Врага] {Name} наносит КРИТИЧЕСКИЙ удар!");
+            else Console.WriteLine($"\n[Ход Врага] {Name} атакует!");
+            target.TakeDamage(damage);
+        }
+    }
+
+    public class VVG : Goblin
+    {
+        public VVG( double current_HP, double max_HP, double basic_Attack, double basic_Protection, int CritChancePercent, string name = "VVG") :
+            base(name, current_HP*2, max_HP*2, basic_Attack * 1.5, basic_Protection * 1.2, CritChancePercent + 10)
+        { }
+        public override void PerformAttack(Entity target)
+        {
+            bool isCrit = RNG.Instance.RollChance(CritChancePercent);
+            double damage = GetTotalAttack() * (isCrit ? 2 : 1);
             if (isCrit) Console.WriteLine($"\n[Ход Врага] {Name} наносит КРИТИЧЕСКИЙ удар!");
             else Console.WriteLine($"\n[Ход Врага] {Name} атакует!");
             target.TakeDamage(damage);
@@ -300,7 +316,7 @@ namespace Roguelike
 
     public class Skeleton : Entity
     {
-        public Skeleton(string name, float current_HP, float max_HP, int basic_Attack, int basic_Protection) :
+        public Skeleton(string name, double current_HP, double max_HP, double basic_Attack, double basic_Protection) :
             base(name, current_HP, max_HP, basic_Attack, basic_Protection)
         { }
 
@@ -311,11 +327,60 @@ namespace Roguelike
         }
     }
 
+    public class Kowalski : Skeleton
+    {
+        public Kowalski(double current_HP, double max_HP, double basic_Attack, double basic_Protection, string name = "Kowalski") :
+            base(name, current_HP * 2.5, max_HP * 2.5, basic_Attack * 1.3, basic_Protection * 1.4)
+        { }
+        public override void PerformAttack(Entity target)
+        {
+            Console.WriteLine($"\n[Ход Врага] {Name} проводит пронизывающую атаку, ИГНОРИРУЯ броню!");
+            target.TakeDamage(GetTotalAttack(), ignoreArmor: true);
+        }
+    }
+
+    public class Pestov : Skeleton
+    {
+        public int FreezeChancePercent { get; } = 35;
+        public Pestov(double current_HP, double max_HP, double basic_Attack, double basic_Protection, string name = "Pestov") :
+    base(name, current_HP * 1.3, max_HP * 1.3, basic_Attack * 1.8, basic_Protection * 0.6)
+        { }
+        public override void PerformAttack(Entity target)
+        {
+            Console.WriteLine($"\n[Ход Врага] {Name} проводит пронизывающую атаку, ИГНОРИРУЯ броню!");
+            target.TakeDamage(GetTotalAttack(), ignoreArmor: true);
+            if (RNG.Instance.RollChance(FreezeChancePercent))
+            {
+                target.IsFrosen = true;
+                Console.WriteLine($"\x1b[36m{Name} накладывает «Заморозку»! {target.Name} пропустит следующий ход.\x1b[0m");
+            }
+        }
+    }
+
     public class Mage : Entity
     {
-        public int FreezeChancePercent { get; } = 20;
-        public Mage(string name, float current_HP, float max_HP, int basic_Attack, int basic_Protection) :
+        public int FreezeChancePercent { get; }
+        public Mage(string name, double current_HP, double max_HP, double basic_Attack, double basic_Protection, int FreezeChancePercent = 20) :
             base(name, current_HP, max_HP, basic_Attack, basic_Protection)
+        { this.FreezeChancePercent = FreezeChancePercent; }
+
+        public override void PerformAttack(Entity target)
+        {
+            Console.WriteLine($"\n[Ход Врага] {Name} кастует заклинание!");
+            target.TakeDamage(GetTotalAttack());
+
+            if (RNG.Instance.RollChance(FreezeChancePercent))
+            {
+                target.IsFrosen = true;
+                Console.WriteLine($"\x1b[36m{Name} накладывает «Заморозку»! {target.Name} пропустит следующий ход.\x1b[0m");
+            }
+        }
+    }
+
+    public class Archmage : Mage
+    {
+        public Archmage(string name, double current_HP, double max_HP, double basic_Attack, double basic_Protection, int FreezeChancePercent = 20) :
+            base(name, current_HP * 1.8, max_HP * 1.8, basic_Attack * 1.6, basic_Protection * 1.1, FreezeChancePercent + 10)
         { }
 
         public override void PerformAttack(Entity target)
@@ -330,6 +395,9 @@ namespace Roguelike
             }
         }
     }
+
+
+
 
     internal class Program
     {
@@ -459,6 +527,60 @@ namespace Roguelike
             Console.WriteLine(w6.ToString());
         }
 
+        // ТЕСТЫ ДЛЯ БОССОВ
+
+        static void RunBossTest_VVG()
+        {
+            Console.WriteLine("\nТЕСТ БОССА: VVG (Гоблин-Босс)");
+            Player player = new Player("Герой", 150, 150, 20, 10);
+            player.EquipWeapon(new Weapon("Стальной меч", 10, Rarity.Uncommon));
+            player.EquipArmor(new Armor("Кожаный нагрудник", 5, Rarity.Common));
+
+            Entity boss = new VVG(120, 120, 15, 5, 40);
+            RunBattleTest(player, boss);
+            Console.WriteLine("\nНажмите Enter для возврата в меню");
+            Console.ReadLine();
+        }
+
+        static void RunBossTest_Kowalski()
+        {
+            Console.WriteLine("\nТЕСТ БОССА: Kowalski (Скелет-Босс)");
+            Player player = new Player("Герой", 150, 150, 20, 10);
+            player.EquipWeapon(new Weapon("Стальной меч", 10, Rarity.Uncommon));
+            player.EquipArmor(new Armor("Кожаный нагрудник", 5, Rarity.Common));
+
+            Entity boss = new Kowalski(150, 150, 20, 8);
+            RunBattleTest(player, boss);
+            Console.WriteLine("\nНажмите Enter для возврата в меню");
+            Console.ReadLine();
+        }
+
+        static void RunBossTest_Pestov()
+        {
+            Console.WriteLine("\nТЕСТ БОССА: Pestov (Скелет-Босс с заморозкой)");
+            Player player = new Player("Герой", 150, 150, 20, 10);
+            player.EquipWeapon(new Weapon("Стальной меч", 10, Rarity.Uncommon));
+            player.EquipArmor(new Armor("Кожаный нагрудник", 5, Rarity.Common));
+
+            Entity boss = new Pestov(100, 100, 25, 6);
+            RunBattleTest(player, boss);
+            Console.WriteLine("\nНажмите Enter для возврата в меню");
+            Console.ReadLine();
+        }
+
+        static void RunBossTest_Archmage()
+        {
+            Console.WriteLine("\nТЕСТ БОССА: Archmage_C (Маг-Босс)");
+            Player player = new Player("Герой", 150, 150, 20, 10);
+            player.EquipWeapon(new Weapon("Стальной меч", 10, Rarity.Uncommon));
+            player.EquipArmor(new Armor("Кожаный нагрудник", 5, Rarity.Common));
+
+            Entity boss = new Archmage("Archmage_C", 100, 100, 25, 5, 30);
+            RunBattleTest(player, boss);
+            Console.WriteLine("\nНажмите Enter для возврата в меню");
+            Console.ReadLine();
+        }
+
         static void Main(string[] args)
         {
             bool exit = false;
@@ -473,8 +595,11 @@ namespace Roguelike
                 Console.WriteLine("5. Бой: Игрок vs Скелет (Игнорирование брони)");
                 Console.WriteLine("6. Бой: Игрок vs Маг (Шанс заморозки)");
                 Console.WriteLine("7. RNG Цикл: 5 случайных боев с разными сущностями");
-                Console.WriteLine("8. Выход");
-                Console.Write("\nВыберите действие (1-8): ");
+                Console.WriteLine("8. Бой: Игрок vs VVG (Босс Гоблин)");
+                Console.WriteLine("9. Бой: Игрок vs Kowalski (Босс Скелет)");
+                Console.WriteLine("10. Бой: Игрок vs Pestov (Босс Скелет с заморозкой)");
+                Console.WriteLine("11. Бой: Игрок vs Archmage_C (Босс Маг)");
+                Console.WriteLine("12. Выход");
 
                 string input = Console.ReadLine();
 
@@ -529,11 +654,23 @@ namespace Roguelike
                         Console.ReadLine();
                         break;
                     case 8:
+                        RunBossTest_VVG();
+                        break;
+                    case 9:
+                        RunBossTest_Kowalski();
+                        break;
+                    case 10:
+                        RunBossTest_Pestov();
+                        break;
+                    case 11:
+                        RunBossTest_Archmage();
+                        break;
+                    case 12:
                         exit = true;
                         Console.WriteLine("Выход из программы.");
                         break;
                     default:
-                        Console.WriteLine("Неверный номер. Выберите от 1 до 8.");
+                        Console.WriteLine("Неверный номер. Выберите от 1 до 12.");
                         Console.ReadLine();
                         break;
                 }
