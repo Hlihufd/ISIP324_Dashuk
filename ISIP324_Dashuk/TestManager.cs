@@ -13,12 +13,10 @@ namespace Roguelike
             Console.ReadLine();
         }
 
-        // Интерактивный бой для тестов (дублирует логику боя из игры)
+        //  бой дублирует логику боя
         private static bool RunInteractiveBattleTest(Player player, Entity enemy)
         {
-            Console.WriteLine($"\n========================================");
             Console.WriteLine($" НАЧАЛО БОЯ: {player.Name} vs {enemy.Name}");
-            Console.WriteLine($"========================================");
             int round = 1;
 
             while (player.IsAlive && enemy.IsAlive)
