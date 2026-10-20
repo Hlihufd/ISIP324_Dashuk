@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace ISIP324_Dashuk
 {
-    puplic static class ConsolHelper
+    public static class ConsolHelper
     {
         public static void Title(string text)
         {
@@ -50,7 +50,7 @@ namespace ISIP324_Dashuk
                 Console.Write(text);
                 int value;
                 if(int.TryParse(Console.ReadLine(), out value)) return value;
-                Error("Введите целое число")
+                Error("Введите целое число");
             }
         }
 
@@ -79,7 +79,7 @@ namespace ISIP324_Dashuk
                     }
                 }else if (!char.IsControl(key.KeyChar)) { 
                     sb.Append(key.KeyChar);
-                    Cobsole.Write('*');
+                    Console.Write('*');
                 }
             }
         }

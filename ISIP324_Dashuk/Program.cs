@@ -6,13 +6,12 @@ using System.Runtime.CompilerServices;
 
 namespace Marketplays
 {
-  
+
     internal class Program
     {
 
         static void Main(string[] args)
         {
-
         }
     }
 }

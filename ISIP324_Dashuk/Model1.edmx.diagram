@@ -8,16 +8,22 @@
         <EntityTypeShape EntityType="MarketplaceDatabaseModel.CartItem" Width="1.5" PointX="8.125" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketplaceDatabaseModel.Category" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketplaceDatabaseModel.Order" Width="1.5" PointX="3.25" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketplaceDatabaseModel.OrderProduct" Width="1.5" PointX="5.625" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketplaceDatabaseModel.OrderProduct" Width="1.5" PointX="6.375" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketplaceDatabaseModel.PickupPoint" Width="1.5" PointX="0.875" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketplaceDatabaseModel.Product" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketplaceDatabaseModel.Product" Width="1.5" PointX="3.125" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketplaceDatabaseModel.User" Width="1.5" PointX="5.625" PointY="7" IsExpanded="true" />
         <AssociationConnector Association="MarketplaceDatabaseModel.FK__CartItem__Produc__5AEE82B9" ManuallyRouted="false" />
         <AssociationConnector Association="MarketplaceDatabaseModel.FK__CartItem__UserId__59FA5E80" ManuallyRouted="false" />
         <AssociationConnector Association="MarketplaceDatabaseModel.FK__Product__Categor__5441852A" ManuallyRouted="false" />
         <AssociationConnector Association="MarketplaceDatabaseModel.FK__Order__PickupPoi__5FB337D6" ManuallyRouted="false" />
         <AssociationConnector Association="MarketplaceDatabaseModel.FK__Order__UserId__5EBF139D" ManuallyRouted="false" />
-        <AssociationConnector Association="MarketplaceDatabaseModel.FK__OrderProd__Order__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="MarketplaceDatabaseModel.FK__OrderProd__Order__6383C8BA" ManuallyRouted="true" >
+          <ConnectorPoint PointX="4.71875" PointY="6.75" />
+          <ConnectorPoint PointX="4.71875" PointY="6.331415625" />
+          <ConnectorPoint PointX="5.1979165263473988" PointY="6.331415625" />
+          <ConnectorPoint PointX="5.1979165263473988" PointY="2.90625" />
+          <ConnectorPoint PointX="6.375" PointY="2.90625" />
+        </AssociationConnector>
         <AssociationConnector Association="MarketplaceDatabaseModel.FK__OrderProd__Produ__6477ECF3" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
