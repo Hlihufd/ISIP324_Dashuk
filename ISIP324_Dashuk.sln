@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36811.4 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.12.12308.306 insiders
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISIP324_Dashuk", "ISIP324_Dashuk\ISIP324_Dashuk.csproj", "{FFD770AD-FC49-4E4D-AC2A-62E87241106E}"
 EndProject
