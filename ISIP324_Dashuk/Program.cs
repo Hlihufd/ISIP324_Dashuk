@@ -1,14 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Configuration;
 using System.Linq;
-using System.Security.Policy;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ISIP324_Dashuk
 {
@@ -29,11 +24,8 @@ namespace ISIP324_Dashuk
                 Console.WriteLine("повторите пароль");
                 while (true)
                 {
-                    if (password != Console.ReadLine())
-                    {
-                        Console.WriteLine(" неверный пароль");
-                        Console.WriteLine("роли не совпадают");
-                    } else break;
+                    if (password != Console.ReadLine()) Console.WriteLine("Пароли не совпадают");
+                    else break;
                 }
                 Core.Context.User.Add(new User { Login = login, PasswordHash = password });
                 Core.Context.SaveChanges();
@@ -54,20 +46,20 @@ namespace ISIP324_Dashuk
                     loggedIn = true;
 
                 }
-                else
-                {
-                    Console.WriteLine("Неверный логин или пароль.");
-                }
+                else Console.WriteLine("Неверный логин или пароль.");
             }
         }
         void ViewProducts()
         {
             var products = Core.Context.Product.ToList();
             Console.WriteLine("Список товаров:");
-            foreach (var product in products)
-            {
-                Console.WriteLine($"ID: {product.Id}, Название: {product.Name}, Цена: {product.Price}");
-            }
+            foreach (var product in products) Console.WriteLine($"ID: {product.Id}, Название: {product.Name}, Цена: {product.Price}")
+        }
+        void AddToCart()
+        {
+            Console.WriteLine("Введи ID товара для добавления в корзину");
+            int productID = Console.ReadLine();
+            var product = Core.Context.Product.FindDirstOrDefault(f => f.ID == productID);
         }
     }
 }
