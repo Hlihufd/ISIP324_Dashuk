@@ -59,7 +59,41 @@ namespace ISIP324_Dashuk
         {
             Console.WriteLine("Введи ID товара для добавления в корзину");
             int productID = Console.ReadLine();
-            var product = Core.Context.Product.FindDirstOrDefault(f => f.ID == productID);
+            var product = Core.Context.Product.FirstOrDefault(f => f.ID == productID);
+            foreach (var item in CartItem) { 
+                var product = Core.Context.Products.FirstOrDefault(p => p.ID == productID);
+                if (product != null)  Console.WriteLine($"Товар: {product.Name}, Количество: {item.Quantity}, Цена за единицу: {product.Price}");
+            }
+
+        }
+
+        void Buy()
+        {
+            Console.WriteLine("Выберете ПВЗ");
+            var pickupPoints = Core.Context.PickupPoints.ToList();
+            foreach (var point in pickupPoints) Console.WriteLine($"{point.ID} адресс {point.Address}");
+            Console.WriteLine("введите ID выбранного ПВЗ");
+            if(int.TryParse(Console.ReadLine(), out int pickupPointsID)) var selectedPickupPoint = Core.Context.PickupPoints.FirstOrDefault(p => p.Id == pickupPointsID);
+            else Console.WriteLine("Введите число, а не нечто иное");
+            if (selectedPickupPoint == null) { Console.WriteLine("Такого ПВЗ нет"); return; }
+
+            Console.WriteLine("Вы хотите купить все товары из корзины? \n 1 - да \n 2 - нет");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case 1:
+                    var cartItems = Core.Context.CartItem.Where(c => c.ID == currentuser.ID).ToList();
+                    if (cartItems.Count == 0)
+                    {
+                        Console.WriteLine("Корзина пуста.");
+                        return;
+                    }
+                    var order = new Order { };
+
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
