@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Configuration;
 using System.Linq;
 using System.Security.Policy;
 using System.Security.Principal;
@@ -8,37 +10,64 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace MarketPlays
+namespace ISIP324_Dashuk
 {
 
     internal class Program
     {
-        static void Bubble (int[] array)
+      
+        static void Main(string[] args)
         {
-            int n = array.Length;
-            bool swapped;
-
-            for (int i = 0; i < n - 1; i++)
+            User currentuser = null;
+            bool loggedIn = false;
+            void RegisterUser()
             {
-                swapped = false;
-                for (int j = 0; j < n - i - 1; j++)
+                Console.WriteLine("введите логин");
+                string login = Console.ReadLine();
+                Console.WriteLine("введите праоль");
+                string password = Console.ReadLine();
+                Console.WriteLine("повторите пароль");
+                while (true)
                 {
-                    if (array[j] > array[j + 1])
+                    if (password != Console.ReadLine())
                     {
-                        (array[j], array[j + 1]) = (array[j + 1], array[j]);
-                        swapped = true;
-                    }
+                        Console.WriteLine(" неверный пароль");
+                        Console.WriteLine("роли не совпадают");
+                    } else break;
                 }
-
-                if (!swapped)
+                Core.Context.User.Add(new User { Login = login, PasswordHash = password });
+                Core.Context.SaveChanges();
+                Console.WriteLine($"аккаунт {login} зарегестрирован");
+            }
+            
+            void LoginUser()
+            {
+                Console.Write("dведите логин");
+                string login = Console.ReadLine();
+                Console.Write("Введите пароль");
+                string password = Console.ReadLine();
+                var user = Core.Context.User.FirstOrDefault(u => u.Login == login && u.PasswordHash == password);
+                if (user != null)
                 {
-                    break; 
+                    Console.WriteLine($"Добро пожаловать, {login}!");
+                    currentuser = user;
+                    loggedIn = true;
+
+                }
+                else
+                {
+                    Console.WriteLine("Неверный логин или пароль.");
                 }
             }
         }
-        static void Main(string[] args)
+        void ViewProducts()
         {
-
+            var products = Core.Context.Product.ToList();
+            Console.WriteLine("Список товаров:");
+            foreach (var product in products)
+            {
+                Console.WriteLine($"ID: {product.Id}, Название: {product.Name}, Цена: {product.Price}");
+            }
         }
     }
 }
