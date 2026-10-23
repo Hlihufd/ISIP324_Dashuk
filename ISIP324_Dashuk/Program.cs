@@ -1,65 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ISIP324_Dashuk
 {
-
     internal class Program
     {
-      
+        // текущий пользователь (null = не вошёл)
+        static User currentUser = null;
+
         static void Main(string[] args)
         {
-            User currentuser = null;
-            bool loggedIn = false;
-            void RegisterUser()
-            {
-                Console.WriteLine("введите логин");
-                string login = Console.ReadLine();
-                Console.WriteLine("введите праоль");
-                string password = Console.ReadLine();
-                Console.WriteLine("повторите пароль");
-                while (true)
-                {
-                    if (password != Console.ReadLine()) Console.WriteLine("Пароли не совпадают");
-                    else break;
-                }
-                Core.Context.User.Add(new User { Login = login, PasswordHash = password });
-                Core.Context.SaveChanges();
-                Console.WriteLine($"аккаунт {login} зарегестрирован");
-            }
-            
-            void LoginUser()
-            {
-                Console.Write("dведите логин");
-                string login = Console.ReadLine();
-                Console.Write("Введите пароль");
-                string password = Console.ReadLine();
-                var user = Core.Context.User.FirstOrDefault(u => u.Login == login && u.PasswordHash == password);
-                if (user != null)
-                {
-                    Console.WriteLine($"Добро пожаловать, {login}!");
-                    currentuser = user;
-                    loggedIn = true;
+            if (!Core.CheckConnection()) return;
 
+            while (true)
+            {
+                Console.WriteLine("\n   MOGDAUN");
+                if (currentUser == null)
+                {
+                    Console.WriteLine("1 - Товары\n2 - Регистрация\n3 - Вход\n0 - Выход");
+                    switch (ConsoleHelper.ReadInt("Выбор: "))
+                    {
+                        case 1: ProductService.ViewAll(); break;
+                        case 2: AuthService.Register(); break;
+                        case 3: currentUser = AuthService.Login(); break;
+                        case 0: return;
+                        default: Console.WriteLine("Нет такого пункта"); break;
+                    }
                 }
-                else Console.WriteLine("Неверный логин или пароль.");
+                else
+                {
+                    Console.WriteLine($"Вы вошли как {currentUser.Login}");
+                    Console.WriteLine("1 - Товары\n2 - Добавить в корзину\n3 - Корзина\n4 - Изменить количество в корзине\n5 - Удалить из корзины\n6 - Купить один товар\n7 - Купить всю корзину\n8 - Мои заказы\n9 - Выйти из аккаунта\n0 - Выход");
+                    switch (ConsoleHelper.ReadInt("Выбор: "))
+                    {
+                        case 1: ProductService.ViewAll(); break;
+                        case 2: CartService.Add(currentUser); break;
+                        case 3: CartService.View(currentUser); break;
+                        case 4: CartService.ChangeQuantity(currentUser); break;
+                        case 5: CartService.Remove(currentUser); break;
+                        case 6: OrderService.BuyOne(currentUser); break;
+                        case 7: OrderService.BuyCart(currentUser); break;
+                        case 8: OrderService.ViewOrders(currentUser); break;
+                        case 9: currentUser = null; break;
+                        case 0: return;
+                        default: Console.WriteLine("Нет такого пункта"); break;
+                    }
+                }
             }
-        }
-        void ViewProducts()
-        {
-            var products = Core.Context.Product.ToList();
-            Console.WriteLine("Список товаров:");
-            foreach (var product in products) Console.WriteLine($"ID: {product.Id}, Название: {product.Name}, Цена: {product.Price}")
-        }
-        void AddToCart()
-        {
-            Console.WriteLine("Введи ID товара для добавления в корзину");
-            int productID = Console.ReadLine();
-            var product = Core.Context.Product.FindDirstOrDefault(f => f.ID == productID);
         }
     }
 }

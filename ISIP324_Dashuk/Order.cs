@@ -23,10 +23,8 @@ namespace ISIP324_Dashuk
         public int Id { get; set; }
         public int UserId { get; set; }
         public int PickupPointId { get; set; }
-        public int OrderStatusId { get; set; }
         public System.DateTime CreatedAt { get; set; }
     
-        public virtual OrderStatus OrderStatus { get; set; }
         public virtual PickupPoint PickupPoint { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

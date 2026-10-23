@@ -13,10 +13,10 @@ namespace ISIP324_Dashuk
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MarketplaceDatabaseEntities : DbContext
+    public partial class MarketplaceDatabaseEntities1 : DbContext
     {
-        public MarketplaceDatabaseEntities()
-            : base("name=MarketplaceDatabaseEntities")
+        public MarketplaceDatabaseEntities1()
+            : base("name=MarketplaceDatabaseEntities1")
         {
         }
     
@@ -29,7 +29,6 @@ namespace ISIP324_Dashuk
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
-        public virtual DbSet<OrderStatus> OrderStatus { get; set; }
         public virtual DbSet<PickupPoint> PickupPoint { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<User> User { get; set; }
