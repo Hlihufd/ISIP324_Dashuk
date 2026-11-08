@@ -1,4 +1,5 @@
 ﻿using CarConfigurator.Models;
+using System.Collections.Generic;
 
 namespace CarConfigurator.Data
 {

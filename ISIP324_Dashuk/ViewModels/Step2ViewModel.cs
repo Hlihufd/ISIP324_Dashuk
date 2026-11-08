@@ -2,6 +2,7 @@
 using CarConfigurator.Models;
 using CarConfigurator.Services;
 using CarConfigurator.ViewModels.Base;
+using System.Collections.Generic;
 
 namespace CarConfigurator.ViewModels
 {

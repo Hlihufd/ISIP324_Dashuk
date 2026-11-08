@@ -1,12 +1,56 @@
-﻿<UserControl x:Class="ISIP324_Dashuk.Views.UserControl1"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ISIP324_Dashuk.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
-</UserControl>
+﻿<Window x:Class="CarConfigurator.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:CarConfigurator.ViewModels"
+        xmlns:pages="clr-namespace:CarConfigurator.Views.Pages"
+        Title="Конфигуратор автомобиля" Height="720" Width="800"
+        FontSize="16" WindowStartupLocation="CenterScreen"
+        Foreground="{DynamicResource TextBrush}"
+        Background="{DynamicResource MintLightBrush}">
+	<Window.DataContext>
+		<vm:MainViewModel/>
+	</Window.DataContext>
+
+	<Window.Resources>
+		<DataTemplate DataType="{x:Type vm:Step1ViewModel}">
+			<pages:Step1Page/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:Step2ViewModel}">
+			<pages:Step2Page/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:Step3ViewModel}">
+			<pages:Step3Page/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:Step4ViewModel}">
+			<pages:Step4Page/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:Step5ViewModel}">
+			<pages:Step5Page/>
+		</DataTemplate>
+	</Window.Resources>
+
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<DockPanel Grid.Row="0">
+			<Button DockPanel.Dock="Left" Content="← Назад" Command="{Binding BackCommand}"/>
+			<TextBlock Style="{StaticResource Header}" Text="Конфигуратор автомобиля"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		</DockPanel>
+
+		<StackPanel Grid.Row="1">
+			<TextBlock Text="{Binding StepText}" Margin="0,0,0,5"/>
+			<ProgressBar Maximum="5" Value="{Binding Step, Mode=OneWay}"/>
+		</StackPanel>
+
+		<ContentControl Grid.Row="2" Margin="0,20" Content="{Binding CurrentViewModel}"/>
+
+		<Button Grid.Row="3" HorizontalAlignment="Right"
+                Content="{Binding NextText}" Command="{Binding NextCommand}"/>
+	</Grid>
+</Window>

@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Windows.Documents;
 using CarConfigurator.Data;
+using System.Collections.Generic;
 
 namespace CarConfigurator.Models
 {
