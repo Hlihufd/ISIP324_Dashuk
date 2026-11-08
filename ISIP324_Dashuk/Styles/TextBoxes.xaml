@@ -1,13 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Style TargetType="TextBox">
-		<Setter Property="Padding" Value="8"/>
-		<Setter Property="Margin" Value="0,5,0,15"/>
-		<Setter Property="BorderThickness" Value="2"/>
-		<Setter Property="BorderBrush" Value="{DynamicResource MintBrush}"/>
-	</Style>
-	<Style TargetType="ComboBox">
-		<Setter Property="Padding" Value="8"/>
-		<Setter Property="Margin" Value="0,5,0,15"/>
-	</Style>
+    <Style TargetType="TextBox">
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Margin" Value="0,5,0,15"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MintBrush}"/>
+    </Style>
+    <Style TargetType="ComboBox">
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Margin" Value="0,5,0,15"/>
+    </Style>
 </ResourceDictionary>

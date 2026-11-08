@@ -1,7 +1,7 @@
-﻿using CarConfigurator.Models;
+﻿using ISIP324_Dashuk.Models;
 using System.Linq;
 
-namespace CarConfigurator.Services
+namespace ISIP324_Dashuk.Services
 {
     public static class PriceCalculator
     {

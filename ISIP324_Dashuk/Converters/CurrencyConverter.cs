@@ -1,15 +1,19 @@
+using System;
 using System.Globalization;
 using System.Windows.Data;
-using System;
 
-namespace CarConfigurator.Converters
+namespace ISIP324_Dashuk.Converters
 {
     public class CurrencyConverter : IValueConverter
     {
-        // текст перед ценой
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            => $"{parameter}{value:N0} руб";
+        {
+            return $"{parameter}{value:N0} ₽";
+        }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            => null;
+        {
+            return null;
+        }
     }
-}﻿
+}

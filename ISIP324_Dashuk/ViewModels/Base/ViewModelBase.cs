@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace CarConfigurator.ViewModels.Base
+namespace ISIP324_Dashuk.ViewModels.Base
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

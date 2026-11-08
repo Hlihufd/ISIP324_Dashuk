@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CarConfigurator.Views.Pages
+namespace ISIP324_Dashuk.Views.Pages
 {
     public partial class Step4Page : UserControl
     {

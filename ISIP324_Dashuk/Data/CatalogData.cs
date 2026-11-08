@@ -1,7 +1,7 @@
-﻿using CarConfigurator.Models;
+﻿using ISIP324_Dashuk.Models;
 using System.Collections.Generic;
 
-namespace CarConfigurator.Data
+namespace ISIP324_Dashuk.Data
 {
     public static class CatalogData
     {

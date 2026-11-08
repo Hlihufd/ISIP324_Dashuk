@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CarConfigurator.Views
+namespace ISIP324_Dashuk.Views
 {
     public partial class MainWindow : Window
     {

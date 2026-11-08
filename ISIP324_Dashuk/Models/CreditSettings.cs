@@ -1,4 +1,4 @@
-﻿namespace CarConfigurator.Models
+﻿namespace ISIP324_Dashuk.Models
 {
     public class CreditSettings
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using System;
 
-namespace CarConfigurator.ViewModels.Base
+namespace ISIP324_Dashuk.ViewModels.Base
 {
     public class RelayCommand : ICommand
     {

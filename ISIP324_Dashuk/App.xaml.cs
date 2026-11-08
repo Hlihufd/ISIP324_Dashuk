@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CarConfigurator
+namespace ISIP324_Dashuk
 {
     public partial class App : Application
     {

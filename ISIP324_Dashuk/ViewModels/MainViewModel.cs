@@ -1,13 +1,13 @@
-﻿using System.Windows;
-using CarConfigurator.Helpers;
-using CarConfigurator.Models;
-using CarConfigurator.ViewModels.Base;
+﻿using System;
+using System.Windows;
+using ISIP324_Dashuk.Helpers;
+using ISIP324_Dashuk.Models;
+using ISIP324_Dashuk.ViewModels.Base;
 
-namespace CarConfigurator.ViewModels
+namespace ISIP324_Dashuk.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        // единый объект конфигурации для всех шагов
         public CarConfiguration Config { get; } = new CarConfiguration();
 
         public int Step { get; private set; } = 1;
@@ -20,9 +20,15 @@ namespace CarConfigurator.ViewModels
 
         public MainViewModel()
         {
-            NextCommand = new RelayCommand(Next, () => CurrentViewModel is not Step5ViewModel s || s.IsValid);
+            NextCommand = new RelayCommand(Next, CanNext);
             BackCommand = new RelayCommand(Back, () => Step > 1);
             ShowStep();
+        }
+
+        private bool CanNext()
+        {
+            var step5 = CurrentViewModel as Step5ViewModel;
+            return step5 == null || step5.IsValid;
         }
 
         private void Next()

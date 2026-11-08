@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CarConfigurator.Helpers
+namespace ISIP324_Dashuk.Helpers
 {
     public static class MessageBoxHelper
     {

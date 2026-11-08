@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using CarConfigurator.ViewModels;
+using ISIP324_Dashuk.ViewModels;
 
-namespace CarConfigurator.Views.Pages
+namespace ISIP324_Dashuk.Views.Pages
 {
     public partial class Step2Page : UserControl
     {

@@ -1,9 +1,9 @@
-﻿using CarConfigurator.Data;
-using CarConfigurator.Models;
-using CarConfigurator.Services;
-using CarConfigurator.ViewModels.Base;
+﻿using ISIP324_Dashuk.Data;
+using ISIP324_Dashuk.Models;
+using ISIP324_Dashuk.Services;
+using ISIP324_Dashuk.ViewModels.Base;
 using System.Collections.Generic;
-namespace CarConfigurator.ViewModels
+namespace ISIP324_Dashuk.ViewModels
 {
     public class Step1ViewModel : ViewModelBase
     {

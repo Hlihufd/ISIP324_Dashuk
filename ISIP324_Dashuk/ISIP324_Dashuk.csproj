@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FFD770AD-FC49-4E4D-AC2A-62E87241106E}</ProjectGuid>
-    
     <!-- ИСПРАВЛЕНО: WinExe вместо Exe, чтобы не открывалась консоль -->
     <OutputType>WinExe</OutputType>
-    
     <RootNamespace>ISIP324_Dashuk</RootNamespace>
     <AssemblyName>ISIP324_Dashuk</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -17,7 +14,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +24,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
@@ -38,7 +33,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-
   <!-- Ссылки на сборки WPF и .NET Framework -->
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -54,7 +48,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
-
   <!-- C# файлы кода -->
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -62,7 +55,6 @@
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CurrencyConverter.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Data\CatalogData.cs" />
     <Compile Include="Helpers\MessageBoxHelper.cs" />
     <Compile Include="Models\CarModel.cs" />
@@ -76,21 +68,6 @@
     <Compile Include="Services\PriceCalculator.cs" />
     <Compile Include="Services\CreditCalculator.cs" />
     <Compile Include="Services\ValidationService.cs" />
-    <Compile Include="Styles\Colors.xaml.cs">
-      <DependentUpon>Colors.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Styles\Buttons.xaml.cs">
-      <DependentUpon>Buttons.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Styles\TextBoxes.xaml.cs">
-      <DependentUpon>TextBoxes.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Styles\Headers.xaml.cs">
-      <DependentUpon>Headers.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Styles\CommonStyles.xaml.cs">
-      <DependentUpon>CommonStyles.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
@@ -118,18 +95,17 @@
       <DependentUpon>Step5Page.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <!-- XAML файлы разметки -->
   <ItemGroup>
-    <Page Include="App.xaml">
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Page Include="Styles\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Colors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,7 +146,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-
   <!-- Конфигурационные файлы и папки -->
   <ItemGroup>
     <None Include="App.config" />
@@ -178,6 +153,5 @@
   <ItemGroup>
     <Folder Include="Assets\Images\" />
   </ItemGroup>
-
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

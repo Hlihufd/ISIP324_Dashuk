@@ -1,4 +1,4 @@
-﻿namespace CarConfigurator.Services
+﻿namespace ISIP324_Dashuk.Services
 {
     public static class CreditCalculator
     {
