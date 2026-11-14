@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36811.4 d17.14
+VisualStudioVersion = 17.14.36811.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISIP324_Dashuk", "ISIP324_Dashuk\ISIP324_Dashuk.csproj", "{FFD770AD-FC49-4E4D-AC2A-62E87241106E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShopWinApp", "OnlineShopWinApp\OnlineShopWinApp.csproj", "{7CAEC021-00F3-4380-B3B5-2966C37A0781}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FFD770AD-FC49-4E4D-AC2A-62E87241106E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFD770AD-FC49-4E4D-AC2A-62E87241106E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFD770AD-FC49-4E4D-AC2A-62E87241106E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFD770AD-FC49-4E4D-AC2A-62E87241106E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CAEC021-00F3-4380-B3B5-2966C37A0781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAEC021-00F3-4380-B3B5-2966C37A0781}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAEC021-00F3-4380-B3B5-2966C37A0781}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAEC021-00F3-4380-B3B5-2966C37A0781}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
