@@ -27,5 +27,7 @@ namespace OnlineShopWinApp
     
         public DbSet<CartItems> CartItems { get; set; }
         public DbSet<Products> Products { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<Orders> Orders { get; set; }
     }
 }

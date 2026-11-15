@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnlineShopWinApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="OnlineShop" Height="450" Width="800">
+    <Grid Background="LightBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button x:Name="ProductButton" Height="50" Width="150" Background="AliceBlue" BorderBrush="#FF76A1A9" Margin="8" Padding="8"
+                    Content="Товары" Click="ProductButton_Click" FontSize="20" FontWeight="Bold" FontFamily="Times New Roman" Foreground="#FF004461"/>
+            <Button x:Name="CartButton" Height="50" Width="150" Background="AliceBlue" BorderBrush="#FF76A1A9" HorizontalAlignment="Left" Margin="8" Padding="8"
+                    Content="Корзина" Click ="CartButton_Click" FontSize="20" FontWeight="Bold" FontFamily="Times New Roman" Foreground="#FF004461"/>
+        </StackPanel>
+
+        <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

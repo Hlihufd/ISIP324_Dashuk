@@ -23,7 +23,17 @@ namespace OnlineShopWinApp
         public MainWindow()
         {
             InitializeComponent();
-            
+            MainFrame.Navigate(new Pages.ProductsPage());
+        }
+
+        private void ProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Pages.ProductsPage());
+        }
+
+        private void CartButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Pages.CartPage());
         }
     }
 }

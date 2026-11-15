@@ -17,6 +17,7 @@ namespace OnlineShopWinApp
         public Products()
         {
             this.CartItems = new HashSet<CartItems>();
+            this.OrderItems = new HashSet<OrderItems>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace OnlineShopWinApp
         public string ImagePath { get; set; }
     
         public virtual ICollection<CartItems> CartItems { get; set; }
+        public virtual ICollection<OrderItems> OrderItems { get; set; }
     }
 }

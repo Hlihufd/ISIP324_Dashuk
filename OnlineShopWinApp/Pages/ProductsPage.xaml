@@ -1,0 +1,37 @@
+﻿<Page x:Class="OnlineShopWinApp.Pages.ProductsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:OnlineShopWinApp.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProductsPage">
+
+    <Grid>
+
+        <ItemsControl x:Name="ProductsList">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="140" Margin="8" Padding="8"
+                            BorderBrush="LightGray" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="120" Source="{Binding FullImagePath}"/>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold"
+                               TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Price, StringFormat={}{0} руб}"/>
+                            <Button x:Name="AddButton" Content="В корзину" Click="AddButton_Click"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            
+        </ItemsControl>
+    </Grid>
+</Page>
