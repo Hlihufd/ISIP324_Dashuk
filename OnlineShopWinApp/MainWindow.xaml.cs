@@ -35,5 +35,10 @@ namespace OnlineShopWinApp
         {
             MainFrame.Navigate(new Pages.CartPage());
         }
+
+        private void OrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Pages.OrderPage());
+        }
     }
 }

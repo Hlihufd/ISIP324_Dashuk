@@ -13,4 +13,5 @@ namespace OnlineShopWinApp
             get { return "/Images/" + ImagePath; }
         }
     }
+   
 }

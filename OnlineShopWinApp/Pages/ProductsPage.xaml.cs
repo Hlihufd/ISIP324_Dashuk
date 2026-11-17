@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace OnlineShopWinApp.Pages
 {
@@ -31,7 +32,30 @@ namespace OnlineShopWinApp.Pages
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            var btn = sender as Button;
+            btn.Content = "Товар добавлен";
             var product = (sender as Button).DataContext as Products;
+            var item = DB.Context.CartItems.FirstOrDefault(x => x.ProductId == product.Id);
+            if (item == null)
+            {
+                var CarItem = new CartItems();
+                CarItem.ProductId = product.Id;
+                CarItem.Quantity = 1;
+                DB.Context.CartItems.Add(CarItem);
+            }
+            else
+            {
+                item.Quantity += 1;
+            }
+            DB.Context.SaveChanges();
+            var timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (s, args) =>
+            {
+                btn.Content = "Добавить в корзину";
+                timer.Stop();
+            };
+            timer.Start();
         }
     }
 }

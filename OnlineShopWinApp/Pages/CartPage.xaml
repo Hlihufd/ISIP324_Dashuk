@@ -9,6 +9,30 @@
       Title="Page2">
 
     <Grid>
-        
+
+        <ItemsControl x:Name="CartList">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="140" Margin="8" Padding="8"
+            BorderBrush="CadetBlue" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="120" Source="{Binding Products.FullImagePath}"/>
+                            <TextBlock Text="{Binding Products.Name}" FontWeight="Bold" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Products.Price, StringFormat={}{0} руб}"/>
+                            <TextBlock Text="{Binding Quantity, StringFormat=Кол-во: {0}}"/>
+                            <Button x:Name="RemoveButton" Click="RemoveButton_Click" Content="Удалить товар"
+                                     Background="AliceBlue" BorderBrush="#FF76A1A9" Foreground="#FF004461"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
     </Grid>
 </Page>

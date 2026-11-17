@@ -20,13 +20,14 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Width="140" Margin="8" Padding="8"
-                            BorderBrush="LightGray" BorderThickness="1">
+                            BorderBrush="CadetBlue" BorderThickness="1">
                         <StackPanel>
                             <Image Height="120" Source="{Binding FullImagePath}"/>
                             <TextBlock Text="{Binding Name}" FontWeight="Bold"
                                TextWrapping="Wrap"/>
                             <TextBlock Text="{Binding Price, StringFormat={}{0} руб}"/>
-                            <Button x:Name="AddButton" Content="В корзину" Click="AddButton_Click"/>
+                            <Button x:Name="AddButton" Content="В корзину" Click="AddButton_Click" Cursor="Hand" 
+                                    Background="AliceBlue" BorderBrush="#FF76A1A9" Foreground="#FF004461"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
