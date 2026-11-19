@@ -24,7 +24,7 @@ namespace OnlineShopWinApp.Pages
         public ProductsPage()
         {
             InitializeComponent();
-            using (var db = new OnlineShopEntities())
+            using (var db = new OnlineShopEntities1())
             {
                 ProductsList.ItemsSource = db.Products.ToList();
             }

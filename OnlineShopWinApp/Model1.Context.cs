@@ -13,10 +13,10 @@ namespace OnlineShopWinApp
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class OnlineShopEntities : DbContext
+    public partial class OnlineShopEntities1 : DbContext
     {
-        public OnlineShopEntities()
-            : base("name=OnlineShopEntities")
+        public OnlineShopEntities1()
+            : base("name=OnlineShopEntities1")
         {
         }
     
@@ -26,8 +26,8 @@ namespace OnlineShopWinApp
         }
     
         public DbSet<CartItems> CartItems { get; set; }
-        public DbSet<Products> Products { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
         public DbSet<Orders> Orders { get; set; }
+        public DbSet<Products> Products { get; set; }
     }
 }

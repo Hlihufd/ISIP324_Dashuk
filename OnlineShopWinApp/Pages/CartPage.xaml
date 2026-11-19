@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:OnlineShopWinApp.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Page2">
+      Title="CartPage">
 
     <Grid>
 
@@ -26,7 +26,7 @@
                             <TextBlock Text="{Binding Products.Name}" FontWeight="Bold" TextWrapping="Wrap"/>
                             <TextBlock Text="{Binding Products.Price, StringFormat={}{0} руб}"/>
                             <TextBlock Text="{Binding Quantity, StringFormat=Кол-во: {0}}"/>
-                            <Button x:Name="RemoveButton" Click="RemoveButton_Click" Content="Удалить товар"
+                            <Button x:Name="RemoveButton" Click="RemoveButton_Click" Content="Удалить товар" Cursor="Hand"
                                      Background="AliceBlue" BorderBrush="#FF76A1A9" Foreground="#FF004461"/>
                         </StackPanel>
                     </Border>

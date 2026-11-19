@@ -8,7 +8,27 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="OrderPage">
 
-    <Grid>
-        
+    <Grid Cursor="">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical" Cursor="" >
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Введите ФИО:  " Height="22" Margin="10" FontSize="18"/>
+                <TextBox x:Name="TextName" Height="28" Width="auto" MinWidth="100" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" 
+                        Background="AliceBlue" BorderBrush="#FF76A1A9" Margin="10" Cursor="IBeam"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Введите Адрес:" Height="22" Margin="10" FontSize="18"/>
+                <TextBox x:Name="TextAdress" Height="28" Width="Auto" MinWidth="100" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" 
+                         Background="AliceBlue" BorderBrush="#FF76A1A9" Margin="10" Cursor="IBeam"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Введите Почту:" Height="22" Margin="10" FontSize="18" />
+                <TextBox x:Name="TextPost" Height="28" Width="Auto" MinWidth="100" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" 
+                        Background="AliceBlue" BorderBrush="#FF76A1A9" Margin="10" Cursor="IBeam"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
