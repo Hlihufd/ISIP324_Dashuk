@@ -8,6 +8,6 @@ namespace OnlineShopWinApp
 {
     public static class DB
     {
-        public static OnlineShopEntities1 Context = new OnlineShopEntities1();
+        public static CinemaDBEntities Context = new CinemaDBEntities();
     }
 }

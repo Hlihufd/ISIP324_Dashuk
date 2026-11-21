@@ -12,20 +12,19 @@ namespace OnlineShopWinApp
     using System;
     using System.Collections.Generic;
     
-    public partial class Products
+    public partial class Halls
     {
-        public Products()
+        public Halls()
         {
-            this.CartItems = new HashSet<CartItems>();
-            this.OrderItems = new HashSet<OrderItems>();
+            this.Sessions = new HashSet<Sessions>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public string ImagePath { get; set; }
+        public int Number { get; set; }
+        public decimal Rating { get; set; }
+        public int RowsCount { get; set; }
+        public int SeatsPerRow { get; set; }
     
-        public virtual ICollection<CartItems> CartItems { get; set; }
-        public virtual ICollection<OrderItems> OrderItems { get; set; }
+        public virtual ICollection<Sessions> Sessions { get; set; }
     }
 }

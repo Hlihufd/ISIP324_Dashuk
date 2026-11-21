@@ -12,12 +12,16 @@ namespace OnlineShopWinApp
     using System;
     using System.Collections.Generic;
     
-    public partial class CartItems
+    public partial class Tickets
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public int UserId { get; set; }
+        public int SessionId { get; set; }
+        public int RowNumber { get; set; }
+        public int SeatNumber { get; set; }
+        public decimal Price { get; set; }
     
-        public virtual Products Products { get; set; }
+        public virtual Sessions Sessions { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

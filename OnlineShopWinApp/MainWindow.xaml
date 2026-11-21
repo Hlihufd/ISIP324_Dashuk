@@ -5,23 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnlineShopWinApp"
         mc:Ignorable="d"
-        Title="OnlineShop" Height="450" Width="800">
-    <Grid Background="LightBlue">
+        Title="CinemaGazyava" Height="450" Width="800">
+    <Grid Background="#434b1b" Margin="10,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button x:Name="ProductButton" Height="50" Width="150" Background="AliceBlue" BorderBrush="#FF76A1A9" Margin="8" Padding="8"
-                    Content="Товары" Click="ProductButton_Click" FontSize="20" FontWeight="Bold" FontFamily="Times New Roman" Foreground="#FF004461" Cursor="Hand"/>
-            
-            <Button x:Name="CartButton" Height="50" Width="150" Background="AliceBlue" BorderBrush="#FF76A1A9" HorizontalAlignment="Left" Margin="8" Padding="8"
-                    Content="Корзина" Click ="CartButton_Click" FontSize="20" FontWeight="Bold" FontFamily="Times New Roman" Foreground="#FF004461" Cursor="Hand"/>
-            
-            <Button x:Name="OrderButton" Height="50" Width="150" Background="AliceBlue" BorderBrush="#FF76A1A9" HorizontalAlignment="Left" Margin="8" Padding="8"
-                    Content="Заказать" Click ="OrderButton_Click"  FontSize="20" FontWeight="Bold" FontFamily="Times New Roman" Foreground="#FF004461" Cursor="Hand"/>
-        </StackPanel>
+        <Menu Background="#d4c18f" Foreground="#504131">
+            <MenuItem Header="🦱" FontSize="23" Click="MenuItem_Click" Cursor="Hand"/>
+            <TextBox x:Name="SearchBox" Text="🔍Введите название..." Background="#d4c18f" BorderBrush="#504131" Height="25" Width="auto" MinWidth="100"
+                     TextAlignment="Center" HorizontalAlignment="Center" Padding="3" Margin="5" />
+        </Menu>
 
         <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>

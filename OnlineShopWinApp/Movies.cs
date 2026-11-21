@@ -12,20 +12,22 @@ namespace OnlineShopWinApp
     using System;
     using System.Collections.Generic;
     
-    public partial class Orders
+    public partial class Movies
     {
-        public Orders()
+        public Movies()
         {
-            this.OrderItems = new HashSet<OrderItems>();
+            this.Sessions = new HashSet<Sessions>();
         }
     
         public int Id { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
-        public decimal TotalPrice { get; set; }
-        public System.DateTime CreatedAt { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public decimal Rating { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public string AgeRating { get; set; }
+        public string Genres { get; set; }
+        public string ImagePath { get; set; }
     
-        public virtual ICollection<OrderItems> OrderItems { get; set; }
+        public virtual ICollection<Sessions> Sessions { get; set; }
     }
 }

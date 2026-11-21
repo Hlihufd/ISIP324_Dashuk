@@ -13,10 +13,10 @@ namespace OnlineShopWinApp
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class OnlineShopEntities1 : DbContext
+    public partial class CinemaDBEntities : DbContext
     {
-        public OnlineShopEntities1()
-            : base("name=OnlineShopEntities1")
+        public CinemaDBEntities()
+            : base("name=CinemaDBEntities")
         {
         }
     
@@ -25,9 +25,10 @@ namespace OnlineShopWinApp
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<CartItems> CartItems { get; set; }
-        public DbSet<OrderItems> OrderItems { get; set; }
-        public DbSet<Orders> Orders { get; set; }
-        public DbSet<Products> Products { get; set; }
+        public DbSet<Halls> Halls { get; set; }
+        public DbSet<Movies> Movies { get; set; }
+        public DbSet<Sessions> Sessions { get; set; }
+        public DbSet<Tickets> Tickets { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }
