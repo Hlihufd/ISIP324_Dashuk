@@ -12,19 +12,22 @@ namespace OnlineShopWinApp
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class Movy
     {
-        public Users()
+        public Movy()
         {
-            this.Tickets = new HashSet<Tickets>();
+            this.Sessions = new HashSet<Session>();
         }
     
         public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public decimal Rating { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public string AgeRating { get; set; }
+        public string Genres { get; set; }
+        public string ImagePath { get; set; }
     
-        public virtual ICollection<Tickets> Tickets { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
     }
 }

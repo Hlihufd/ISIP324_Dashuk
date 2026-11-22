@@ -12,21 +12,16 @@ namespace OnlineShopWinApp
     using System;
     using System.Collections.Generic;
     
-    public partial class Sessions
+    public partial class Ticket
     {
-        public Sessions()
-        {
-            this.Tickets = new HashSet<Tickets>();
-        }
-    
         public int Id { get; set; }
-        public int MovieId { get; set; }
-        public int HallId { get; set; }
-        public System.DateTime StartTime { get; set; }
+        public int UserId { get; set; }
+        public int SessionId { get; set; }
+        public int RowNumber { get; set; }
+        public int SeatNumber { get; set; }
         public decimal Price { get; set; }
     
-        public virtual Halls Halls { get; set; }
-        public virtual Movies Movies { get; set; }
-        public virtual ICollection<Tickets> Tickets { get; set; }
+        public virtual Session Session { get; set; }
+        public virtual User User { get; set; }
     }
 }

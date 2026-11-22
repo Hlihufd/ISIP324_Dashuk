@@ -12,22 +12,19 @@ namespace OnlineShopWinApp
     using System;
     using System.Collections.Generic;
     
-    public partial class Movies
+    public partial class Hall
     {
-        public Movies()
+        public Hall()
         {
-            this.Sessions = new HashSet<Sessions>();
+            this.Sessions = new HashSet<Session>();
         }
     
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public int Number { get; set; }
         public decimal Rating { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public string AgeRating { get; set; }
-        public string Genres { get; set; }
-        public string ImagePath { get; set; }
+        public int RowsCount { get; set; }
+        public int SeatsPerRow { get; set; }
     
-        public virtual ICollection<Sessions> Sessions { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
     }
 }

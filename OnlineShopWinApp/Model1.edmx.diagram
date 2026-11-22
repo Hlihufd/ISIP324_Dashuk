@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="94d0d1775e4343b197b40b5d4e7df3ce" Name="Diagram1">
-        <EntityTypeShape EntityType="CinemaDBModel.Halls" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaDBModel.Movies" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaDBModel.Sessions" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaDBModel.Tickets" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaDBModel.Users" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <AssociationConnector Association="CinemaDBModel.FK__Sessions__HallId__2C3393D0" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDBModel.FK__Sessions__MovieI__2B3F6F97" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDBModel.FK__Tickets__Session__30F848ED" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDBModel.FK__Tickets__UserId__300424B4" ManuallyRouted="false" />
+      <Diagram DiagramId="03b89d18aebc4b3db4cc363b7be3978a" Name="Diagram1">
+        <EntityTypeShape EntityType="CinemaDBModel.Hall" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaDBModel.Movy" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaDBModel.Session" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaDBModel.Ticket" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaDBModel.User" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <AssociationConnector Association="CinemaDBModel.FK__Sessions__HallId__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDBModel.FK__Sessions__MovieI__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDBModel.FK__Tickets__Session__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDBModel.FK__Tickets__UserId__5629CD9C" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

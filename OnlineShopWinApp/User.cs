@@ -12,19 +12,19 @@ namespace OnlineShopWinApp
     using System;
     using System.Collections.Generic;
     
-    public partial class Halls
+    public partial class User
     {
-        public Halls()
+        public User()
         {
-            this.Sessions = new HashSet<Sessions>();
+            this.Tickets = new HashSet<Ticket>();
         }
     
         public int Id { get; set; }
-        public int Number { get; set; }
-        public decimal Rating { get; set; }
-        public int RowsCount { get; set; }
-        public int SeatsPerRow { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
     
-        public virtual ICollection<Sessions> Sessions { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

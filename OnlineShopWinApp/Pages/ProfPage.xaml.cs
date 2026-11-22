@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace OnlineShopWinApp.Pages
 {
@@ -23,6 +11,26 @@ namespace OnlineShopWinApp.Pages
         public ProfPage()
         {
             InitializeComponent();
+            var user = CurrentUser.User;
+            if (user == null) return;
+
+            FullNameText.Text = "ФИО " + user.FullName;
+            LoginText.Text = "Логин " + user.Login;
+            EmailText.Text = "Email " + user.Email;
+
+            using(var db = new CinemaDBEntities())
+            {
+                TicketsList.ItemsSource = db.Tickets.Where(t => t.UserId == user.Id)
+                    .Select(t => new
+                    {
+                        Movie = t.Session.Movy.Title,
+                        Hall = t.Session.Hall.Number,
+                        Time = t.Session.StartTime,
+                        t.RowNumber,
+                        t.SeatNumber,
+                        t.Price
+                    }).ToList();
+            }
         }
     }
 }

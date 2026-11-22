@@ -11,7 +11,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu Background="#d4c18f" Foreground="#504131">
+        <Menu Background="#d4c18f" Foreground="#504131" BorderBrush="#504131" BorderThickness="1">
             <MenuItem Header="🦱" FontSize="23" Click="MenuItem_Click" Cursor="Hand"/>
             <TextBox x:Name="SearchBox" Text="🔍Введите название..." Background="#d4c18f" BorderBrush="#504131" Height="25" Width="auto" MinWidth="100"
                      TextAlignment="Center" HorizontalAlignment="Center" Padding="3" Margin="5" />

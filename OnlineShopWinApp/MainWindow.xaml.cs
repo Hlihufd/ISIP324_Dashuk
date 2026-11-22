@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using OnlineShopWinApp.Pages;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace OnlineShopWinApp
@@ -16,7 +17,8 @@ namespace OnlineShopWinApp
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            ProfPage page = new ProfPage();
+            MainFrame.Content = page;
         }
 
         

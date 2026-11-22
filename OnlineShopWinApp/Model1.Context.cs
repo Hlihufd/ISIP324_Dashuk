@@ -25,10 +25,10 @@ namespace OnlineShopWinApp
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Halls> Halls { get; set; }
-        public DbSet<Movies> Movies { get; set; }
-        public DbSet<Sessions> Sessions { get; set; }
-        public DbSet<Tickets> Tickets { get; set; }
-        public DbSet<Users> Users { get; set; }
+        public DbSet<Hall> Halls { get; set; }
+        public DbSet<Movy> Movies { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
