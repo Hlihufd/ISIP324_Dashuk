@@ -22,7 +22,7 @@
 
         <TextBlock Text="Пароль"/>
         <PasswordBox x:Name="PassBox" Margin="0,2,0,15"/>
-
+        
         <Button x:Name="RegisterBtn" Content="Зарегистрироваться" Click="RegisterBtn_Click" Height="30"/>
         <Button x:Name="BackBtn" Content="Назад" Click="BackBtn_Click" Height="30" Margin="0,8,0,0"/>
     </StackPanel>
