@@ -14,9 +14,9 @@ namespace OnlineShopWinApp.Pages
             var user = CurrentUser.User;
             if (user == null) return;
 
-            FullNameText.Text = "ФИО " + user.FullName;
-            LoginText.Text = "Логин " + user.Login;
-            EmailText.Text = "Email " + user.Email;
+            FullNameText.Text = "ФИО: " + user.FullName;
+            LoginText.Text = "Логин: " + user.Login;
+            EmailText.Text = "Email: " + user.Email;
 
             using(var db = new CinemaDBEntities())
             {
