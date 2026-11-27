@@ -17,7 +17,7 @@ namespace OnlineShopWinApp
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ProfPage page = new ProfPage();
+            LoginPage page = new LoginPage();
             MainFrame.Content = page;
         }
 
