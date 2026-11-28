@@ -1,0 +1,43 @@
+﻿<Page x:Class="OnlineShopWinApp.Pages.SeatsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:OnlineShopWinApp.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SeatsPage">
+
+    <Grid Margin="15">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <Button Content="Назад" Width="80" HorizontalAlignment="Left" Click="BackBtn_Click" Foreground="#d4c18f"/>
+            <TextBlock x:Name="InfoText" FontSize="18" FontWeight="Bold" Margin="0,10,0,0" TextWrapping="Wrap" Foreground="#d4c18f"/>
+            <TextBlock x:Name="InfoText2" Margin="0,2,0,0" Foreground="#d4c18f"/>
+        </StackPanel>
+
+        <CheckBox Grid.Row="1" x:Name="HideBox" Content="Убрать занятые места" Foreground="#d4c18f"
+                  Margin="0,10,0,10" Checked="HideBox_Changed" Unchecked="HideBox_Changed" />
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center">
+                <Border Background="#d4c18f" Height="8" Margin="50,0,0,15" CornerRadius="4"/>
+                <TextBlock Text="ЭКРАН" HorizontalAlignment="Center" Margin="50,-12,0,12" FontSize="11" Foreground="#d4c18f"/>
+                <StackPanel x:Name="SeatsPanel"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="3" Margin="0,10,0,0">
+            <TextBlock x:Name="SelectedText" Text="Место не выбрано" FontSize="15" Margin="0,0,0,8" Foreground="#d4c18f"/>
+            <Button Content="Оформить билет" Height="32" Click="BuyBtn_Click" Foreground="#d4c18f"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

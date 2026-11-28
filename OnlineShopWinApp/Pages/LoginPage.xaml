@@ -8,17 +8,17 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page1">
 
-    <StackPanel Width="250" VerticalAlignment="Center">
-        <TextBlock Text="Вход" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,15"/>
-        
-        <TextBlock Text="Логин"/>
+    <StackPanel Width="250" VerticalAlignment="Center" Cursor="">
+        <TextBlock Text="Вход" Foreground="#d4c18f" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+
+        <TextBlock Text="Логин" Foreground="#d4c18f"/>
         <TextBox x:Name="LoginBox" Margin="0,2,0,10"/>
 
-        <TextBlock Text="Пароль"/>
+        <TextBlock Text="Пароль" Foreground="#d4c18f"/>
         <PasswordBox x:Name="PassBox" Margin="0,2,0,15"/>
 
-        <Button x:Name="LoginBtn" Content="Войти" Click="LoginBtn_Click" Height="30"/>
-        <Button x:Name="RegistrBtn" Content="Регистрация" Click="RegistrBtn_Click" Height="30" Margin="0,8,0,0"/>
+        <Button x:Name="LoginBtn" Content="Войти" Foreground="#434b1b" Click="LoginBtn_Click" Height="30" Cursor="Hand" />
+        <Button x:Name="RegistrBtn" Content="Регистрация" Click="RegistrBtn_Click" Height="30" Margin="0,8,0,0" Foreground="#434b1b"/>
 
     </StackPanel>
 </Page>

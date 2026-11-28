@@ -48,7 +48,7 @@ namespace OnlineShopWinApp.Pages
 
         private void RegistrBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new RegistrPage());
+            NavigationService.Navigate(new RegisterPage());
         }
     }
 }

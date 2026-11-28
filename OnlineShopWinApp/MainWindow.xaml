@@ -5,18 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnlineShopWinApp"
         mc:Ignorable="d"
-        Title="CinemaGazyava" Height="450" Width="800">
+        Title="CinemaGazyava" Height="600" Width="900">
     <Grid Background="#434b1b" Margin="10,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Menu Background="#d4c18f" Foreground="#504131" BorderBrush="#504131" BorderThickness="1">
-            <MenuItem Header="🦱" FontSize="23" Click="MenuItem_Click" Cursor="Hand"/>
-            <TextBox x:Name="SearchBox" Text="🔍Введите название..." Background="#d4c18f" BorderBrush="#504131" Height="25" Width="auto" MinWidth="100"
-                     TextAlignment="Center" HorizontalAlignment="Center" Padding="3" Margin="5" />
+            <MenuItem Header="👤" FontSize="23" Click="MenuItem_Click" Cursor="Hand"/>
+            <MenuItem Header="Главная" FontSize="16" Click="HomeItem_Click" Cursor="Hand"/>
+
+            <TextBox x:Name="SearchBox" Text="🔍Введите название..."
+                 Background="#d4c18f" BorderBrush="#504131"
+                 Height="25" Width="auto" MinWidth="200"
+                 TextAlignment="Center" HorizontalAlignment="Center"
+                 Padding="3" Margin="5"
+                 GotFocus="SearchBox_GotFocus"
+                 LostFocus="SearchBox_LostFocus"
+                 TextChanged="SearchBox_TextChanged"/>
+
+            <ComboBox x:Name="SortBox" Width="140" Margin="5" SelectedIndex="0"
+                  SelectionChanged="SortBox_SelectionChanged">
+                <ComboBoxItem Content="По названию"/>
+                <ComboBoxItem Content="По рейтингу" />
+            </ComboBox>
         </Menu>
 
         <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+
     </Grid>
 </Window>

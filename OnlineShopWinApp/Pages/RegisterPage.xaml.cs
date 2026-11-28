@@ -18,9 +18,9 @@ namespace OnlineShopWinApp.Pages
     /// <summary>
     /// Логика взаимодействия для Page1.xaml
     /// </summary>
-    public partial class RegistrPage : Page
+    public partial class RegisterPage : Page
     {
-        public RegistrPage()
+        public RegisterPage()
         {
             InitializeComponent();
         }
